@@ -27,7 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Projects\\Angular-RestAPI\\WebAPI\\WebApi.Infrastructure\\WebAPI.Infrastructure.csproj": {
+                "projectPath": "D:\\Projects\\Angular-RestAPI\\WebAPI\\WebApi.Infrastructure\\WebAPI.Infrastructure.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -93,6 +97,12 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

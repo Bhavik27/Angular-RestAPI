@@ -2249,6 +2249,9 @@
       "WebAPI.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "WebAPI.Infrastructure": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/WebAPI.Application.dll": {}
         },
@@ -2259,6 +2262,9 @@
       "WebAPI.Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.2"
+        },
         "compile": {
           "bin/placeholder/WebAPI.Infrastructure.dll": {}
         },

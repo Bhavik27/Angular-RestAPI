@@ -1,0 +1,12 @@
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\bin\Debug\netcoreapp3.1\WebAPI.Application.deps.json
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\bin\Debug\netcoreapp3.1\WebAPI.Application.dll
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\bin\Debug\netcoreapp3.1\WebAPI.Application.pdb
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.csprojAssemblyReference.cache
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.AssemblyInfoInputs.cache
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.AssemblyInfo.cs
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.csproj.CoreCompileInputs.cache
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.dll
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.pdb
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\bin\Debug\netcoreapp3.1\WebAPI.Infrastructure.dll
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\bin\Debug\netcoreapp3.1\WebAPI.Infrastructure.pdb
+D:\Projects\Angular-RestAPI\WebAPI\WebAPI.Application\obj\Debug\netcoreapp3.1\WebAPI.Application.csproj.CopyComplete

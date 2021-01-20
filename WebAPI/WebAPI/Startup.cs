@@ -12,7 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using WebAPI.context;
+using WebAPI.Application.Interfaces;
+using WebAPI.Application.Services;
+using WebAPI.Infrastructure.context;
+using WebAPI.Infrastructure.Interfaces;
+using WebAPI.Infrastructure.Repository;
 
 namespace WebAPI
 {
@@ -29,11 +33,15 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
             services.AddDbContext<WebDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddControllers();
+
+            services.AddScoped<IUserMasterRepository, UserMasterRepository>();
+            services.AddScoped<IUserMasterService, UserMasterService>();
+
 
             services.AddSwaggerGen(c =>
             {
