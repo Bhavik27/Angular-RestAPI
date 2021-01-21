@@ -1,0 +1,23 @@
+<mat-toolbar>
+    <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>{{sidenav.opened ? 'close' : 'menu'}}</mat-icon>
+    </button>
+    Angular
+</mat-toolbar>
+
+<mat-sidenav-container>
+
+    <mat-sidenav mode="side" #sidenav>
+        <mat-nav-list>
+            <mat-list-item routerLink="/users" class="px-2" routerLinkActive="active">
+                <img src="../../assets/avatar.svg" class="mx-2">Users
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

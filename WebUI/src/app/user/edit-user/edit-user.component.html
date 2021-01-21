@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>User</h1>
+<div mat-dialog-content class="container-fluid">
+    <div class="row px-2">
+        <mat-form-field appearance="outline" class="col-xl-12">
+            <mat-label>UserName</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+    </div>
+    <div class="row px-2">
+        <mat-form-field appearance="outline" class="col-xl-12">
+            <mat-label>MailId</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+    </div>
+    <div class="row px-2">
+        <mat-form-field appearance="outline" class="col-xl-6">
+            <mat-label>FirstName</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-xl-6">
+            <mat-label>LastName</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+    </div>
+    <div class="row px-2">
+        <mat-form-field appearance="outline" class="col-xl-6">
+            <mat-label>DateOfBirth</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-xl-6">
+            <mat-label>Gender</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial (click)="OnClickSave()">Save</button>
+    <button mat-button (click)="onNoClick()">No</button>
+</div>

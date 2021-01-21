@@ -2,3 +2,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-sidenav-container{
+    width:100%;
+    height: calc(100vh - 64px);
+    overflow: auto;
+}
+table{
+    width: 100%;
+}

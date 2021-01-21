@@ -17,5 +17,6 @@ namespace WebAPI.Infrastructure.VModels
         public DateTime? CreatedTime { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedTime { get; set; }
+        public int TotalRecords { get; set; }
     }
 }

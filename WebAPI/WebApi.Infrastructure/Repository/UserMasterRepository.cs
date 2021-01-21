@@ -20,19 +20,23 @@ namespace WebAPI.Infrastructure.Repository
         public List<VMUserMaster> GetUsers()
         {
             List<VMUserMaster> data = new List<VMUserMaster>();
-            data = (from um in _context.userMasters
+            var data2 = _context.userMasters.ToList();
+            int TotalRecords = data2.Count;
+            data = (from d in data2
                     select new VMUserMaster
                     {
-                        UserId = um.UserId,
-                        UserName = um.UserName,
-                        FirstName = um.FirstName,
-                        LastName = um.LastName,
-                        MailId = um.MailId,
-                        Gender = um.Gender,
-                        CreatedBy = um.CreatedBy,
-                        CreatedTime = um.CreatedTime,
-                        UpdatedBy = um.UpdatedBy,
-                        UpdatedTime = um.UpdatedTime,
+                        UserId = d.UserId,
+                        UserName = d.UserName,
+                        FirstName = d.FirstName,
+                        LastName = d.LastName,
+                        MailId = d.MailId,
+                        Gender = d.Gender,
+                        DateOfBirth = d.DateOfBirth,
+                        CreatedBy = d.CreatedBy,
+                        CreatedTime = d.CreatedTime,
+                        UpdatedBy = d.UpdatedBy,
+                        UpdatedTime = d.UpdatedTime,
+                        TotalRecords = TotalRecords,
                     }).ToList();
             return data;
         }

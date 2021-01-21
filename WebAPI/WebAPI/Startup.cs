@@ -35,14 +35,25 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddScoped<IUserMasterRepository, UserMasterRepository>();
+            services.AddScoped<IUserMasterService, UserMasterService>();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options =>
+                {
+                    options.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             services.AddDbContext<WebDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers();
 
-            services.AddScoped<IUserMasterRepository, UserMasterRepository>();
-            services.AddScoped<IUserMasterService, UserMasterService>();
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -68,6 +79,7 @@ namespace WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
 
+            app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
 
             app.UseRouting();
