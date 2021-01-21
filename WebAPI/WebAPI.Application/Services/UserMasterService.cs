@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WebAPI.Application.Services;
+using WebAPI.Infrastructure.VModels;
 using WebAPI.Infrastructure.Interfaces;
 using WebAPI.Infrastructure.Models;
 
@@ -14,9 +15,22 @@ namespace WebAPI.Application.Interfaces
         {
             _repository = repository;
         }
-        public  List<UserMaster> GetUsers()
+
+        List<VMUserMaster> IUserMasterService.GetUsers()
         {
-            var data =  _repository.GetUsers();
+            var data = _repository.GetUsers();
+            return data;
+        }
+
+        int IUserMasterService.SaveUser(UserMaster user)
+        {
+            int data = _repository.SaveUser(user);
+            return data;
+        }
+
+        int IUserMasterService.DeleteUser(int id)
+        {
+            int data = _repository.DeleteUser(id);
             return data;
         }
     }

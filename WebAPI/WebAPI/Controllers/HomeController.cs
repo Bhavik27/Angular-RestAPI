@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Application.Services;
 using WebAPI.Infrastructure.Models;
+using WebAPI.Infrastructure.VModels;
 
 namespace WebAPI.Controllers
 {
@@ -22,6 +23,22 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetUsers()
         {
             var result = await Task.FromResult(_service.GetUsers());
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/SaveUser")]
+        public async Task<ActionResult> SaveUser(UserMaster userMaster)
+        {
+            var result = await Task.FromResult(_service.SaveUser(userMaster));
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("api/[controller]/DeleteUser/{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var result = await Task.FromResult(_service.DeleteUser(id));
             return Ok(result);
         }
     }
