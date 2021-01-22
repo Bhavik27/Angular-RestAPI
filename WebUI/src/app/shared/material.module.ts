@@ -10,6 +10,9 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     exports: [
@@ -23,7 +26,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatPaginatorModule,
         MatDialogModule,
         MatInputModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatDatepickerModule,MatNativeDateModule,
+        MatSelectModule
     ]
 })
 export class MaterialModule { }

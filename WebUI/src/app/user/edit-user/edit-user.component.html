@@ -1,39 +1,48 @@
 <h1 mat-dialog-title>User</h1>
 <div mat-dialog-content class="container-fluid">
-    <div class="row px-2">
-        <mat-form-field appearance="outline" class="col-xl-12">
-            <mat-label>UserName</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-    </div>
-    <div class="row px-2">
-        <mat-form-field appearance="outline" class="col-xl-12">
-            <mat-label>MailId</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-    </div>
-    <div class="row px-2">
-        <mat-form-field appearance="outline" class="col-xl-6">
-            <mat-label>FirstName</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="col-xl-6">
-            <mat-label>LastName</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-    </div>
-    <div class="row px-2">
-        <mat-form-field appearance="outline" class="col-xl-6">
-            <mat-label>DateOfBirth</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="col-xl-6">
-            <mat-label>Gender</mat-label>
-            <input matInput type="text">
-        </mat-form-field>
-    </div>
+    <form [formGroup]="_UserForm">
+        <div class="row px-2">
+            <mat-form-field appearance="outline" class="col-xl-12">
+                <mat-label>UserName</mat-label>
+                <input matInput type="text" formControlName="UserName" id="UserName" [(ngModel)]="_User.UserName">
+            </mat-form-field>
+        </div>
+        <div class="row px-2">
+            <mat-form-field appearance="outline" class="col-xl-12">
+                <mat-label>MailId</mat-label>
+                <input matInput type="text" formControlName="MailId" id="MailId" [(ngModel)]="_User.MailId">
+            </mat-form-field>
+        </div>
+        <div class="row px-2">
+            <mat-form-field appearance="outline" class="col-xl-6">
+                <mat-label>FirstName</mat-label>
+                <input matInput type="text" formControlName="FirstName" id="FirstName" [(ngModel)]="_User.FirstName">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-xl-6">
+                <mat-label>LastName</mat-label>
+                <input matInput type="text" formControlName="LastName" id="LastName" [(ngModel)]="_User.LastName">
+            </mat-form-field>
+        </div>
+        <div class="row px-2">
+            <mat-form-field appearance="outline" class="col-xl-6">
+                <mat-label>DateOfBirth</mat-label>
+                <input matInput type="text" formControlName="DateOfBirth" id="DateOfBirth"
+                    [(ngModel)]="_User.DateOfBirth" [matDatepicker]="picker" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-xl-6">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="Gender" id="Gender" [(ngModel)]="_User.Gender">
+                    <mat-option value="M">Male</mat-option>
+                    <mat-option value="F">Female</mat-option>
+                    <mat-option value="O">Other</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="py-3">
     <button mat-button cdkFocusInitial (click)="OnClickSave()">Save</button>
     <button mat-button (click)="onNoClick()">No</button>
 </div>
