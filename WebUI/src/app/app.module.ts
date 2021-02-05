@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { ConfirmBoxComponent } from './main/confirm-box/confirm-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts'
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MainComponent,
     UserComponent,
     EditUserComponent,
-    ConfirmBoxComponent
+    ConfirmBoxComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgApexchartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
