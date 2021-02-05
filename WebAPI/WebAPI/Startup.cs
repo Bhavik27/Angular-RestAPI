@@ -38,6 +38,9 @@ namespace WebAPI
             services.AddScoped<IUserMasterRepository, UserMasterRepository>();
             services.AddScoped<IUserMasterService, UserMasterService>();
 
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IDashboardService, DashboardService>();
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options =>
@@ -75,9 +78,10 @@ namespace WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
+                
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
 
             app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
