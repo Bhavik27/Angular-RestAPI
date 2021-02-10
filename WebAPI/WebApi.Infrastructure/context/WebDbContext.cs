@@ -17,58 +17,18 @@ namespace WebAPI.Infrastructure.context
 
 
 
-        /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
          {
              if (!optionsBuilder.IsConfigured)
              {
-                 Console.WriteLine("not configured");
+                optionsBuilder.UseSqlServer(" "); // enter your connection string
              }
          }
 
          protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
-             modelBuilder.Entity<UserMaster>(b =>
-             {
-                 b.Property<int>("UserId")
-                     .ValueGeneratedOnAdd()
-                     .HasColumnType("int")
-                     .UseIdentityColumn();
-
-                 b.Property<int?>("CreatedBy")
-                     .HasColumnType("int");
-
-                 b.Property<DateTime?>("CreatedTime")
-                     .HasColumnType("datetime2");
-
-                 b.Property<DateTime>("DateOfBirth")
-                     .HasColumnType("datetime2");
-
-                 b.Property<string>("FirstName")
-                     .HasColumnType("nvarchar(max)");
-
-                 b.Property<string>("Gender")
-                     .HasColumnType("nvarchar(max)");
-
-                 b.Property<string>("LastName")
-                     .HasColumnType("nvarchar(max)");
-
-                 b.Property<string>("MailId")
-                     .HasColumnType("nvarchar(max)");
-
-                 b.Property<int?>("UpdatedBy")
-                     .HasColumnType("int");
-
-                 b.Property<DateTime?>("UpdatedTime")
-                     .HasColumnType("datetime2");
-
-                 b.Property<string>("UserName")
-                     .HasColumnType("nvarchar(max)");
-
-                 b.HasKey("UserId");
-
-                 b.ToTable("userMasters");
-             });
-         }*/
+             
+         }
 
     }
 }
