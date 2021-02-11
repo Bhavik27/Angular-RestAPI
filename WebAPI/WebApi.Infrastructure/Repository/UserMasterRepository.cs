@@ -20,7 +20,7 @@ namespace WebAPI.Infrastructure.Repository
         public List<VMUserMaster> GetUsers()
         {
             List<VMUserMaster> data = new List<VMUserMaster>();
-            var data2 = _context.userMasters.ToList();
+            var data2 = _context.UserMasters.ToList();
             int TotalRecords = data2.Count;
             data = (from d in data2
                     select new VMUserMaster
@@ -43,7 +43,7 @@ namespace WebAPI.Infrastructure.Repository
 
         public int SaveUser(UserMaster user)
         {
-            if (_context.userMasters.Where(u => u.UserId == user.UserId).FirstOrDefault() == null)
+            if (_context.UserMasters.Where(u => u.UserId == user.UserId).FirstOrDefault() == null)
             {
                 user.CreatedBy = 1;
                 user.CreatedTime = DateTime.Now;
@@ -54,7 +54,7 @@ namespace WebAPI.Infrastructure.Repository
             }
             else
             {
-                var data = _context.userMasters.FirstOrDefault(u => u.UserId == user.UserId);
+                var data = _context.UserMasters.FirstOrDefault(u => u.UserId == user.UserId);
                 data.UserName = user.UserName;
                 data.FirstName = user.FirstName;
                 data.LastName = user.LastName;
@@ -70,10 +70,10 @@ namespace WebAPI.Infrastructure.Repository
         }
         public int DeleteUser(int id)
         {
-            UserMaster vMUser = _context.userMasters.Where(u => u.UserId == id).FirstOrDefault();
+            UserMaster vMUser = _context.UserMasters.Where(u => u.UserId == id).FirstOrDefault();
             if (vMUser != null)
             {
-                _context.userMasters.Remove(vMUser);
+                _context.UserMasters.Remove(vMUser);
                 _context.SaveChanges();
                 return 1;
             }

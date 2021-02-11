@@ -19,5 +19,7 @@ namespace WebAPI.Infrastructure.Models
         public DateTime? CreatedTime { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedTime { get; set; }
+
+        public int Role { get; set; }
     }
 }

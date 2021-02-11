@@ -17,7 +17,7 @@ namespace WebAPI.Infrastructure.Repository
         }
         public DashboardModel GetChartData()
         {
-            var data = _context.userMasters.ToList();
+            var data = _context.UserMasters.ToList();
             if (data.Count > 0)
             {
                 DashboardModel model = (from d in data

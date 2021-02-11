@@ -13,7 +13,8 @@ namespace WebAPI.Infrastructure.context
         public WebDbContext() { }
         public WebDbContext(DbContextOptions<WebDbContext> options) : base(options) { }
 
-        public virtual DbSet<UserMaster> userMasters { get; set; }
+        public virtual DbSet<UserMaster> UserMasters { get; set; }
+        public virtual DbSet<RoleMaster> RoleMasters { get; set; }
 
 
 

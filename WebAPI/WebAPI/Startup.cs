@@ -38,6 +38,8 @@ namespace WebAPI
 
 
 
+            services.AddTransient<IRoleMasterRepository, RoleMasterRepository>();
+            services.AddTransient<IRoleMasterService, RoleMasterService>();
 
             services.AddScoped<IUserMasterRepository, UserMasterRepository>();
             services.AddScoped<IUserMasterService, UserMasterService>();
