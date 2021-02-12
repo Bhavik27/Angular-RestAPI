@@ -12,7 +12,10 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { ConfirmBoxComponent } from './main/confirm-box/confirm-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NgApexchartsModule } from 'ng-apexcharts'
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { RoleManagerComponent } from './role-manager/role-manager.component';
+import { EditRoleComponent } from './role-manager/edit-role/edit-role.component';
+import { UserLoginComponent } from './user-login/user-login.component'
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { NgApexchartsModule } from 'ng-apexcharts'
     UserComponent,
     EditUserComponent,
     ConfirmBoxComponent,
-    DashboardComponent
+    DashboardComponent,
+    RoleManagerComponent,
+    EditRoleComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
