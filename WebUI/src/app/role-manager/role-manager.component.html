@@ -1,0 +1,33 @@
+<div class=" container-fluid">
+    <div class="card">
+
+        <div class="card-body">
+            <div class="card-title float-right">
+                <button mat-button (click)="OnAdd()">Add
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <table mat-table class="mat-elevation-z2" [dataSource]="_Role">
+
+                <ng-container matColumnDef="Role">
+                    <th mat-header-cell *matHeaderCellDef>Role</th>
+                    <td mat-cell *matCellDef="let element">{{element.Role}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="OnEdit(element)">
+                            <img src="../../assets/edit.svg" alt="edit">
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row *matRowDef="let row;columns:displayColumns"></tr>
+            </table>
+            <mat-paginator class="mat-elevation-z2" [pageSizeOptions]="[5,10,15]" [length]="_Role.length">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
