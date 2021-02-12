@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using WebAPI.Infrastructure.Models;
+using WebAPI.Infrastructure.Models.VModels;
 using WebAPI.Infrastructure.VModels;
 
 namespace WebAPI.Application.Mapper
@@ -12,6 +13,7 @@ namespace WebAPI.Application.Mapper
         public WebMapper()
         {
             CreateMap<UserMaster, VMUserMaster>();
+            CreateMap<RoleMaster, VMRoleMaster>();
             //CreateMap<VMUserMaster, UserMaster>();
         }
     }

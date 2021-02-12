@@ -10,10 +10,10 @@ using WebAPI.Infrastructure.VModels;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    public class HomeController : ControllerBase
+    public class UserController : ControllerBase
     {
         private IUserMasterService _service;
-        public HomeController(IUserMasterService service)
+        public UserController(IUserMasterService service)
         {
             _service = service;
         }

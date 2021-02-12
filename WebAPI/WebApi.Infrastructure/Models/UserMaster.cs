@@ -10,6 +10,7 @@ namespace WebAPI.Infrastructure.Models
         [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -19,7 +20,6 @@ namespace WebAPI.Infrastructure.Models
         public DateTime? CreatedTime { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedTime { get; set; }
-
         public int Role { get; set; }
     }
 }
