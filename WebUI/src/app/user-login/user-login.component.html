@@ -1,1 +1,35 @@
-<p>user-login works!</p>
+<div class=" container">
+    <div class="row mt-5 h-100">
+        <div class="col-md-7 col-lg-6 col-xl-5 m-auto">
+            <div class="card">
+
+                <div class="card-body">
+
+                    <form (ngSubmit)="OnUserLogin()" [formGroup]="_UserLoginForm">
+
+                        <div class="row px-2">
+                            <mat-form-field appearance="outline" class="col-xl-12">
+                                <mat-label>UserName</mat-label>
+                                <input matInput type="text" name="UserName" id="UserName"
+                                    formControlName="UserNameControl" [(ngModel)]="_UserLogin.UserName">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row px-2">
+                            <mat-form-field appearance="outline" class="col-xl-12">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="password" name="Password" id="Password"
+                                    formControlName="PasswordControl" [(ngModel)]="_UserLogin.Password">
+                            </mat-form-field>
+                        </div>
+                        <button mat-button type="submit">Login
+                        </button>
+                    </form>
+                    <div class="text-center">
+                        <span class="text-danger">{{_ErrorMessage}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
