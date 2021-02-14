@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using WebAPI.Infrastructure.context;
 using WebAPI.Infrastructure.Interfaces;
-using WebAPI.Infrastructure.Models.VModels;
+using WebAPI.Infrastructure.Models;
 
 namespace WebAPI.Infrastructure.Repository
 {

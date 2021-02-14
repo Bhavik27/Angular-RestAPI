@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WebAPI.Infrastructure.Models;
-using WebAPI.Infrastructure.VModels;
+using WebAPI.Infrastructure.Models.VModels;
 
 namespace WebAPI.Application.Services
 {
@@ -11,5 +11,6 @@ namespace WebAPI.Application.Services
         public List<VMUserMaster> GetUsers();
         public int SaveUser(UserMaster user);
         public int DeleteUser(int id);
+        public int Authenticate(VMUserLogin userLogin);
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WebAPI.Infrastructure.VModels
+namespace WebAPI.Infrastructure.Models.VModels
 {
     public class VMUserMaster
     {

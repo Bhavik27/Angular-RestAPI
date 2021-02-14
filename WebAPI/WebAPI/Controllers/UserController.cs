@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Application.Services;
 using WebAPI.Infrastructure.Models;
-using WebAPI.Infrastructure.VModels;
+using WebAPI.Infrastructure.Models.VModels;
 
 namespace WebAPI.Controllers
 {
@@ -39,6 +39,14 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> DeleteUser(int id)
         {
             var result = await Task.FromResult(_service.DeleteUser(id));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/Authenticate")]
+        public async Task<ActionResult> Authenticate(VMUserLogin userLogin)
+        {
+            var result = await Task.FromResult(_service.Authenticate(userLogin));
             return Ok(result);
         }
     }

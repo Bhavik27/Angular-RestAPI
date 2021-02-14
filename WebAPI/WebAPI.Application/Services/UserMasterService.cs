@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using WebAPI.Application.Services;
-using WebAPI.Infrastructure.VModels;
 using WebAPI.Infrastructure.Interfaces;
 using WebAPI.Infrastructure.Models;
+using WebAPI.Infrastructure.Models.VModels;
 
 namespace WebAPI.Application.Interfaces
 {
@@ -31,6 +31,12 @@ namespace WebAPI.Application.Interfaces
         int IUserMasterService.DeleteUser(int id)
         {
             int data = _repository.DeleteUser(id);
+            return data;
+        }
+
+        public int Authenticate(VMUserLogin userLogin)
+        {
+            int data = _repository.Authenticate(userLogin);
             return data;
         }
     }

@@ -34,5 +34,13 @@ namespace WebAPI.Controllers
             var data = await Task.FromResult(_service.SaveRoles(roleMaster));
             return Ok(data);
         }
+
+        [HttpPost]
+        [Route("GeteRoleRights")]
+        public async Task<ActionResult> GeteRoleRights(VMRoleMaster roleMaster)
+        {
+            var data = await Task.FromResult(_service.GeteRoleRights(roleMaster));
+            return Ok(data);
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WebAPI.Application.Interfaces;
 using WebAPI.Infrastructure.Interfaces;
-using WebAPI.Infrastructure.Models.VModels;
+using WebAPI.Infrastructure.Models;
 
 namespace WebAPI.Application.Services
 {

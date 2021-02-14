@@ -16,18 +16,30 @@ namespace WebAPI.Infrastructure.Repository
         {
             _context = context;
         }
-        public List<RoleMaster> GetRoles()
+        public List<VMRoleMaster> GetRoles()
         {
-            var data = _context.RoleMasters.ToList();
+            List<VMRoleMaster> data = new List<VMRoleMaster>();
+
+            var data2 = _context.RoleMasters.ToList();
+            int totalRecords = data.Count;
+
+            data = (from d in data2
+                    select new VMRoleMaster
+                    {
+                        RoleId = d.RoleId,
+                        RoleName = d.RoleName,
+                        TotalRecords = totalRecords
+                    }).ToList();
+
             return data;
         }
 
         public int SaveRoles(VMRoleMaster roleMaster)
         {
-            if(_context.RoleMasters.Where(u => u.RoleId == roleMaster.RoleId).FirstOrDefault() == null)
+            if (_context.RoleMasters.Where(u => u.RoleId == roleMaster.RoleId).FirstOrDefault() == null)
             {
                 RoleMaster role = new RoleMaster();
-                role.Role = roleMaster.Role;
+                role.RoleName = roleMaster.RoleName;
                 role.CreatedBy = 1;
                 role.CreatedTime = DateTime.Now;
                 role.UpdatedBy = null;
@@ -38,7 +50,7 @@ namespace WebAPI.Infrastructure.Repository
             else
             {
                 var data = _context.RoleMasters.FirstOrDefault(u => u.RoleId == roleMaster.RoleId);
-                data.Role = roleMaster.Role;
+                data.RoleName = roleMaster.RoleName;
                 data.UpdatedTime = DateTime.Now;
                 data.UpdatedBy = 1;
                 _context.Update(data);
@@ -47,15 +59,21 @@ namespace WebAPI.Infrastructure.Repository
             return 1;
         }
 
-        public int ManageRoleRights(RoleMaster roleMaster)
+        public List<VMRoleAccess> GeteRoleRights(VMRoleMaster roleMaster)
         {
-            if(_context.RoleMasters.FirstOrDefault(r => r.RoleId == roleMaster.RoleId) == null)
-            {
-                _context.RoleMasters.Add(roleMaster);
-                _context.SaveChanges();
-                return 1;
-            }
-            return 0;
+            var data = (from roles in _context.RoleMasters
+                        join roleAccess in _context.RoleAccessMasters
+                        on roles.RoleId equals roleAccess.RoleId
+                        select new VMRoleAccess
+                        {
+                            RoleId = roles.RoleId,
+                            RoleAccessId = roleAccess.RoleAccessId,
+                            AddAccess = roleAccess.AddAccess,
+                            InsertAccess = roleAccess.InsertAccess,
+                            DeleteAccess = roleAccess.DeleteAccess,
+                            ViewAccess = roleAccess.ViewAccess,
+                        }).ToList();
+            return data;
         }
     }
 }

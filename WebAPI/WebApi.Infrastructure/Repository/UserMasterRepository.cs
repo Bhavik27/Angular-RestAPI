@@ -4,8 +4,8 @@ using System.Text;
 using System.Linq;
 using WebAPI.Infrastructure.context;
 using WebAPI.Infrastructure.Interfaces;
-using WebAPI.Infrastructure.VModels;
 using WebAPI.Infrastructure.Models;
+using WebAPI.Infrastructure.Models.VModels;
 
 namespace WebAPI.Infrastructure.Repository
 {
@@ -80,6 +80,19 @@ namespace WebAPI.Infrastructure.Repository
             return 0;
         }
 
-
+        public int Authenticate(VMUserLogin userLogin)
+        {
+            if (_context.UserMasters.Where(u => u.UserName == userLogin.UserName).FirstOrDefault() != null)
+            {
+                if (_context.UserMasters.Where(u => u.Password == userLogin.Password).FirstOrDefault() != null)
+                    return 1;
+                else
+                    return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }
