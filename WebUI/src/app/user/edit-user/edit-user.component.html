@@ -4,23 +4,27 @@
         <div class="row px-2">
             <mat-form-field appearance="outline" class="col-xl-12">
                 <mat-label>UserName</mat-label>
-                <input matInput type="text" formControlName="UserName" id="UserName" [(ngModel)]="_User.UserName">
+                <input matInput type="text" formControlName="UserName" id="UserName" [(ngModel)]="_User.UserName"
+                    autocomplete="off">
             </mat-form-field>
         </div>
         <div class="row px-2">
             <mat-form-field appearance="outline" class="col-xl-12">
                 <mat-label>MailId</mat-label>
-                <input matInput type="text" formControlName="MailId" id="MailId" [(ngModel)]="_User.MailId">
+                <input matInput type="text" formControlName="MailId" id="MailId" [(ngModel)]="_User.MailId"
+                    autocomplete="off">
             </mat-form-field>
         </div>
         <div class="row px-2">
             <mat-form-field appearance="outline" class="col-xl-6">
                 <mat-label>FirstName</mat-label>
-                <input matInput type="text" formControlName="FirstName" id="FirstName" [(ngModel)]="_User.FirstName">
+                <input matInput type="text" formControlName="FirstName" id="FirstName" [(ngModel)]="_User.FirstName"
+                    autocomplete="off">
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-xl-6">
                 <mat-label>LastName</mat-label>
-                <input matInput type="text" formControlName="LastName" id="LastName" [(ngModel)]="_User.LastName">
+                <input matInput type="text" formControlName="LastName" id="LastName" [(ngModel)]="_User.LastName"
+                    autocomplete="off">
             </mat-form-field>
         </div>
         <div class="row px-2">
@@ -28,7 +32,7 @@
                 <mat-label>DateOfBirth</mat-label>
                 <input matInput type="text" formControlName="DateOfBirth" id="DateOfBirth"
                     [(ngModel)]="_User.DateOfBirth" [matDatepicker]="picker" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-xl-6">

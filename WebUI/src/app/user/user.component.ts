@@ -23,7 +23,7 @@ export class UserComponent implements OnInit {
   }
 
   GetUsers() {
-    this.apiService.get('api/Home/GetUsers')
+    this.apiService.get('api/User/GetUsers')
       .subscribe(data => {
         this._User.length = data[0].totalRecords;
         this._User = this.convertToModel(data);
@@ -59,7 +59,7 @@ export class UserComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.apiService.delete(`api/Home/DeleteUser/${id}`)
+          this.apiService.delete(`api/User/DeleteUser/${id}`)
             .subscribe(data => {
               console.log('record deleted of ' + id);
               this.GetUsers();

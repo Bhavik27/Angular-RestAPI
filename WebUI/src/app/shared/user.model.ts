@@ -11,3 +11,8 @@ export class UserModel {
     UpdatedBy: number;
     UpdatedTime: string;
 }
+
+export class UserLoginModel {
+    UserName: string;
+    Password: string;
+}

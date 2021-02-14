@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
-import { RoleModel } from '../shared/role.model';
+import { RoleModel, RoleRequestModel } from '../shared/role.model';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
 @Component({
@@ -12,19 +12,19 @@ import { EditRoleComponent } from './edit-role/edit-role.component';
 })
 export class RoleManagerComponent implements OnInit {
 
-  _Role: RoleModel[];
+  _Role: RoleRequestModel[];
   // displayColumns: string[] = ['RoleId','Role'];
-  displayColumns: string[] = ['Role','Action'];
+  displayColumns: string[] = ['Role', 'Action'];
   constructor(private apiService: ApiService,
     public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
     this._Role = [];
-    this.GetUsers();
+    this.GetRoles();
   }
 
-  GetUsers() {
+  GetRoles() {
     this.apiService.get('api/Master/GetRoles')
       .subscribe(data => {
         this._Role.length = data[0].totalRecords;
@@ -32,13 +32,13 @@ export class RoleManagerComponent implements OnInit {
       })
   }
 
-  convertToModel(value: any): RoleModel[] {
+  convertToModel(value: any): RoleRequestModel[] {
     const data = [];
     if (value != null || value.length != 0) {
       for (var v of value) {
         data.push({
           RoleId: v.roleId,
-          Role: v.role,
+          Role: v.roleName,
           ViewAccess: v.viewAccess,
           InsertAccess: v.insertAccess,
           EditAccess: v.editAccess,
@@ -47,6 +47,7 @@ export class RoleManagerComponent implements OnInit {
           CreatedTime: v.createdTime,
           UpdatedBy: v.updatedBy,
           UpdatedTime: v.updatedTime,
+          TotalRecords: v.totalRecords,
         });
       }
     }
@@ -57,26 +58,26 @@ export class RoleManagerComponent implements OnInit {
     this.dialog.open(EditRoleComponent,
       {
         width: '800px',
-        data: { userId: 0 }
+        data: { roleId: 0 }
       })
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetUsers();
+          this.GetRoles();
         }
       });
   }
 
-  OnEdit(user: any) {
+  OnEdit(role: any) {
     this.dialog.open(EditRoleComponent,
       {
         width: '800px',
-        data: user
+        data: role
       })
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetUsers();
+          this.GetRoles();
         }
       });
   }

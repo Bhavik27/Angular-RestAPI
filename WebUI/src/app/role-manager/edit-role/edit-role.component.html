@@ -1,6 +1,13 @@
 <h1 mat-dialog-title>User</h1>
 <div mat-dialog-content class="container-fluid">
-    <p>edit-role works!</p>
+    <form [formGroup]="_RoleForm">
+        <div class="row px-2">
+            <mat-form-field appearance="outline" class="col-xl-12">
+                <mat-label>Role</mat-label>
+                <input matInput type="text" formControlName="RoleName" id="Role" [(ngModel)]="_Role.RoleName" autocomplete="off">
+            </mat-form-field>
+        </div>
+    </form>
 
 </div>
 <div mat-dialog-actions class="py-3">

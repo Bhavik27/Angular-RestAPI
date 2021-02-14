@@ -39,7 +39,7 @@ export class EditUserComponent implements OnInit {
   }
 
   OnClickSave() {
-    this.apiService.post('api/Home/SaveUser', this._User)
+    this.apiService.post('api/User/SaveUser', this._User)
       .subscribe(data => {
         console.log(data);
         this.dialogRef.close(1)
