@@ -10,6 +10,7 @@ namespace WebAPI.Infrastructure.Models
         [Key]
         public int RoleAccessId { get; set; }
         public int RoleId { get; set; }
+        public string ModuleName { get; set; }
         public int ViewAccess { get; set; }
         public int AddAccess { get; set; }
         public int InsertAccess { get; set; }
