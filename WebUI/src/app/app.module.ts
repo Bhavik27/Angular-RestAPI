@@ -15,7 +15,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { EditRoleComponent } from './role-manager/edit-role/edit-role.component';
-import { UserLoginComponent } from './user-login/user-login.component'
+import { UserLoginComponent } from './user-login/user-login.component';
+import { ModuleMappingComponent } from './role-manager/module-mapping/module-mapping.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { UserLoginComponent } from './user-login/user-login.component'
     DashboardComponent,
     RoleManagerComponent,
     EditRoleComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    ModuleMappingComponent,
+    ActivityLogComponent
   ],
   imports: [
     BrowserModule,
