@@ -1,32 +1,43 @@
-<mat-toolbar>
-    <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>{{sidenav.opened ? 'close' : 'menu'}}</mat-icon>
-    </button>
-    Angular
-</mat-toolbar>
-
 <mat-sidenav-container>
 
-    <mat-sidenav mode="side" #sidenav>
-        <mat-nav-list>
+    <mat-sidenav mode="side" #sidenav [(opened)]="open">
+        <mat-nav-list class="primary-title my-3">
+            <img src="../../favicon.ico" class="mx-2">Angular
+        </mat-nav-list>
+        <mat-nav-list class="py-0">
             <mat-list-item routerLink="/Dashboard" class="px-2" routerLinkActive="active">
                 <img src="../../assets/dashboard.svg" class="mx-2">Dashboard
             </mat-list-item>
         </mat-nav-list>
-        <mat-nav-list>
+        <mat-nav-list class="py-0">
             <mat-list-item routerLink="/Users" class="px-2" routerLinkActive="active">
                 <img src="../../assets/avatar.svg" class="mx-2">Users
             </mat-list-item>
         </mat-nav-list>
-        <mat-nav-list>
+        <mat-nav-list class="py-0">
             <mat-list-item routerLink="/RoleManager" class="px-2" routerLinkActive="active">
                 <img src="../../assets/management.svg" class="mx-2">RoleManager
+            </mat-list-item>
+        </mat-nav-list>
+        <!-- <mat-nav-list>
+            <mat-list-item routerLink="/ModuleMapping" class="px-2" routerLinkActive="active">
+                <img src="../../assets/map.svg" class="mx-2">ModuleMapping
+            </mat-list-item>
+        </mat-nav-list> -->
+        <mat-nav-list class="py-0">
+            <mat-list-item routerLink="/ActivityLog" class="px-2" routerLinkActive="active">
+                <img src="../../assets/log.svg" class="mx-2">ActivityLog
             </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
 
 
     <mat-sidenav-content>
+        <mat-toolbar>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 
