@@ -38,7 +38,7 @@ export class UserLoginComponent implements OnInit {
         else {
           this._ErrorMessage = null;
           this.authService.Authenticate();
-          this._router.navigate(['Users'])
+          this._router.navigate(['/Dashboard'])
         }
       },
         (err) => {

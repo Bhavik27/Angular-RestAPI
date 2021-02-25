@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
-import { RoleModel, RoleRequestModel } from '../shared/role.model';
+import { RoleRequestModel } from '../shared/role.model';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
 @Component({
@@ -16,7 +17,8 @@ export class RoleManagerComponent implements OnInit {
   // displayColumns: string[] = ['RoleId','Role'];
   displayColumns: string[] = ['Role', 'Action'];
   constructor(private apiService: ApiService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    public router: Router) { }
 
 
   ngOnInit(): void {
@@ -80,6 +82,10 @@ export class RoleManagerComponent implements OnInit {
           this.GetRoles();
         }
       });
+  }
+
+  GetManualMapping(id: number) {
+    this.router.navigate(['/ModuleMapping', id])
   }
 
 }
