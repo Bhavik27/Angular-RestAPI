@@ -104,8 +104,9 @@ namespace WebAPI.Infrastructure.Repository
         {
             if (_context.UserMasters.Where(u => u.UserName == userLogin.UserName).FirstOrDefault() != null)
             {
-                if (_context.UserMasters.Where(u => u.Password == userLogin.Password).FirstOrDefault() != null)
-                    return 1;
+                var data = _context.UserMasters.Where(u => u.Password == userLogin.Password).FirstOrDefault();
+                if (data != null)
+                    return data.Role;
                 else
                     return -1;
             }
