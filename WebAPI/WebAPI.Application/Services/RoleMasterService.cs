@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WebAPI.Application.Interfaces;
 using WebAPI.Infrastructure.Interfaces;
+using WebAPI.Infrastructure.Models;
 using WebAPI.Infrastructure.Models.VModels;
 
 namespace WebAPI.Application.Services
@@ -27,9 +28,15 @@ namespace WebAPI.Application.Services
             return data;
         }
 
-        public List<VMRoleAccess> GeteRoleRights(VMRoleMaster roleMaster)
+        public List<VMRoleAccess> GeteRoleRights(int RoleID)
         {
-            var data = _repository.GeteRoleRights(roleMaster);
+            var data = _repository.GeteRoleRights(RoleID);
+            return data;
+        }
+
+        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
+        {
+            var data = _repository.SetRoleRights(vMRoles,RoleID);
             return data;
         }
     }

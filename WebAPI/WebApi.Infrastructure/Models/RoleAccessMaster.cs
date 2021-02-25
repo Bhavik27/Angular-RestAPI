@@ -12,8 +12,8 @@ namespace WebAPI.Infrastructure.Models
         public int RoleId { get; set; }
         public string ModuleName { get; set; }
         public int ViewAccess { get; set; }
-        public int AddAccess { get; set; }
-        public int InsertAccess { get; set; }
+        public int CreateAccess { get; set; }
+        public int UpdateAccess { get; set; }
         public int DeleteAccess { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedTime { get; set; }

@@ -35,11 +35,19 @@ namespace WebAPI.Controllers
             return Ok(data);
         }
 
-        [HttpPost]
-        [Route("GeteRoleRights")]
-        public async Task<ActionResult> GeteRoleRights(VMRoleMaster roleMaster)
+        [HttpGet]
+        [Route("GeteRoleRights/{RoleID}")]
+        public async Task<ActionResult> GeteRoleRights(int RoleID)
         {
-            var data = await Task.FromResult(_service.GeteRoleRights(roleMaster));
+            var data = await Task.FromResult(_service.GeteRoleRights(RoleID));
+            return Ok(data);
+        }
+
+        [HttpPost]
+        [Route("SetRoleRights/{RoleID}")]
+        public async Task<ActionResult> SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
+        {
+            var data = await Task.FromResult(_service.SetRoleRights(vMRoles, RoleID));
             return Ok(data);
         }
     }

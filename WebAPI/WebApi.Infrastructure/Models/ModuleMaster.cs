@@ -11,7 +11,7 @@ namespace WebAPI.Infrastructure.Models
         public int  ModuleId  { get; set; }
         public string ModuleName { get; set; }
         public int IsView { get; set; }
-        public int IsAdd { get; set; }
+        public int IsCreate { get; set; }
         public int IsUpdate { get; set; }
         public int IsDelete { get; set; }
     }

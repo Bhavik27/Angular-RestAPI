@@ -12,9 +12,11 @@ namespace WebAPI.Infrastructure.Repository
     public class UserMasterRepository : IUserMasterRepository
     {
         private WebDbContext _context;
-        public UserMasterRepository(WebDbContext context)
+        private readonly IActivityLogRepository _logRepository;
+        public UserMasterRepository(WebDbContext context, IActivityLogRepository logRepository)
         {
             _context = context;
+            _logRepository = logRepository;
         }
 
         public List<VMUserMaster> GetUsers()
@@ -46,11 +48,17 @@ namespace WebAPI.Infrastructure.Repository
             if (_context.UserMasters.Where(u => u.UserId == user.UserId).FirstOrDefault() == null)
             {
                 user.CreatedBy = 1;
+                user.Role = 1;
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedBy = null;
                 user.UpdatedTime = null;
                 _context.Add(user);
                 _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.Activity = "New User Created - " + user.UserName;
+                activity.ActivityType = "CREATE";
+                _logRepository.SetActivityLog(activity);
             }
             else
             {
@@ -63,8 +71,14 @@ namespace WebAPI.Infrastructure.Repository
                 data.DateOfBirth = user.DateOfBirth;
                 data.UpdatedTime = DateTime.Now;
                 data.UpdatedBy = 1;
+                data.Role = 1;
                 _context.Update(data);
                 _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.Activity = "User Updated - " + user.UserName;
+                activity.ActivityType = "UPDATE";
+                _logRepository.SetActivityLog(activity);
             }
             return 1;
         }
@@ -73,8 +87,14 @@ namespace WebAPI.Infrastructure.Repository
             UserMaster vMUser = _context.UserMasters.Where(u => u.UserId == id).FirstOrDefault();
             if (vMUser != null)
             {
+                var tempUser = vMUser.UserName;
                 _context.UserMasters.Remove(vMUser);
                 _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.Activity = "User Removed - " + tempUser;
+                activity.ActivityType = "DELETE";
+                _logRepository.SetActivityLog(activity);
                 return 1;
             }
             return 0;

@@ -12,9 +12,11 @@ namespace WebAPI.Infrastructure.Repository
     public class RoleMasterRepository : IRoleMasterRepository
     {
         private WebDbContext _context;
-        public RoleMasterRepository(WebDbContext context)
+        private readonly IActivityLogRepository _logRepository;
+        public RoleMasterRepository(WebDbContext context, IActivityLogRepository logRepository)
         {
             _context = context;
+            _logRepository = logRepository;
         }
         public List<VMRoleMaster> GetRoles()
         {
@@ -44,8 +46,13 @@ namespace WebAPI.Infrastructure.Repository
                 role.CreatedTime = DateTime.Now;
                 role.UpdatedBy = null;
                 role.UpdatedTime = null;
-                _context.Add(role);
+                _context.RoleMasters.Add(role);
                 _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.Activity = "New Role Created - " + roleMaster.RoleName;
+                activity.ActivityType = "CREATE";
+                _logRepository.SetActivityLog(activity);
             }
             else
             {
@@ -53,27 +60,54 @@ namespace WebAPI.Infrastructure.Repository
                 data.RoleName = roleMaster.RoleName;
                 data.UpdatedTime = DateTime.Now;
                 data.UpdatedBy = 1;
-                _context.Update(data);
+                _context.RoleMasters.Update(data);
                 _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.Activity = "Role Updated - " + roleMaster.RoleName;
+                activity.ActivityType = "UPDATE";
+                _logRepository.SetActivityLog(activity);
             }
             return 1;
         }
 
-        public List<VMRoleAccess> GeteRoleRights(VMRoleMaster roleMaster)
+        public List<VMRoleAccess> GeteRoleRights(int RoleID)
         {
-            var data = (from roles in _context.RoleMasters
-                        join roleAccess in _context.RoleAccessMasters
-                        on roles.RoleId equals roleAccess.RoleId
-                        select new VMRoleAccess
-                        {
-                            RoleId = roles.RoleId,
-                            RoleAccessId = roleAccess.RoleAccessId,
-                            AddAccess = roleAccess.AddAccess,
-                            InsertAccess = roleAccess.InsertAccess,
-                            DeleteAccess = roleAccess.DeleteAccess,
-                            ViewAccess = roleAccess.ViewAccess,
-                        }).ToList();
-            return data;
+            var data2 = (from RA in _context.RoleAccessMasters
+                         join MM in _context.ModuleMasters on RA.ModuleName equals MM.ModuleName
+                         where RA.RoleId == RoleID
+                         select new VMRoleAccess
+                         {
+                             RoleAccessId = RA.RoleAccessId,
+                             RoleId = RA.RoleId,
+                             ModuleName = MM.ModuleName,
+                             ViewAccess = RA.ViewAccess,
+                             CreateAccess = RA.CreateAccess,
+                             UpdateAccess = RA.UpdateAccess,
+                             DeleteAccess = RA.DeleteAccess,
+                             IsView = MM.IsView,
+                             IsCreate = MM.IsCreate,
+                             IsUpdate = MM.IsUpdate,
+                             IsDelete = MM.IsDelete,
+                         }).ToList();
+            return data2;
+        }
+
+        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
+        {
+            foreach (var item in vMRoles)
+            {
+                RoleAccessMaster roleAccess = _context.RoleAccessMasters.Where(x => x.RoleId == item.RoleId && x.RoleAccessId == item.RoleAccessId).FirstOrDefault();
+                roleAccess.ViewAccess = item.ViewAccess;
+                roleAccess.CreateAccess = item.CreateAccess;
+                roleAccess.UpdateAccess = item.UpdateAccess;
+                roleAccess.DeleteAccess = item.DeleteAccess;
+                roleAccess.UpdatedBy = 1;
+                roleAccess.UpdatedTime = DateTime.Now;
+                _context.RoleAccessMasters.Update(roleAccess);
+                _context.SaveChanges();
+            }
+            return 0;
         }
     }
 }
