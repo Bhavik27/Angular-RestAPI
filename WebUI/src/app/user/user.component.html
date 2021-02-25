@@ -1,9 +1,9 @@
-<div class=" container-fluid">
+<div class="container-fluid pt-2">
     <div class="card">
 
         <div class="card-body">
             <div class="card-title float-right">
-                <button mat-button (click)="OnAdd()">Add
+                <button mat-button (click)="OnAdd()" [disabled]="!CreateAccess">Add
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -37,10 +37,10 @@
                 <ng-container matColumnDef="Action">
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button (click)="OnEdit(element)">
+                        <button mat-icon-button (click)="OnEdit(element)" [disabled]="!UpdateAccess">
                             <img src="../../assets/edit.svg" alt="edit">
                         </button>
-                        <button mat-icon-button (click)="OnDelete(element.UserId)">
+                        <button mat-icon-button (click)="OnDelete(element.UserId)" [disabled]="!DeleteAccess">
                             <img src="../../assets/delete.svg" alt="delete" class="ml-2">
                         </button>
                     </td>

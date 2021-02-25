@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 import { UserModel } from '../shared/user.model';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
@@ -12,13 +14,26 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 })
 export class UserComponent implements OnInit {
 
+  CreateAccess: boolean = false;
+  UpdateAccess: boolean = false;
+  DeleteAccess: boolean = false;
+
   _User: UserModel[];
   displayColumns: string[] = ['UserName', 'FirstName', 'LastName', 'DateOfBirth', 'Gender', 'MailId', 'Action'];
   constructor(private apiService: ApiService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private router: Router) {
+    if (!authService.hasAccess("UserMaster", "ViewAccess")) {
+      router.navigate(["/Dashboard"])
+    }
+  }
 
   ngOnInit(): void {
     this._User = [];
+    this.CreateAccess = this.authService.hasAccess("UserMaster", "CreateAccess");
+    this.UpdateAccess = this.authService.hasAccess("UserMaster", "UpdateAccess");
+    this.DeleteAccess = this.authService.hasAccess("UserMaster", "DeleteAccess");
     this.GetUsers();
   }
 

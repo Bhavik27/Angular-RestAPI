@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { CoreService } from 'src/app/services/core.service';
 import { ModuleMappingModel } from 'src/app/shared/module.model';
 
 @Component({
@@ -10,16 +12,25 @@ import { ModuleMappingModel } from 'src/app/shared/module.model';
 })
 export class ModuleMappingComponent implements OnInit {
 
+  UpdateAccess: boolean = false;
+
   _ModuleMappingModel: ModuleMappingModel[];
   displayColumns: string[] = ["Module", "View", "Create", "Update", "Delete"]
   RoleId: number;
   NotificationMessage: string = "";
   constructor(private _Activatedroute: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService,
+    private coreService: CoreService) {
+    if (!authService.hasAccess("ModuleMapping", "ViewAccess")) {
+      router.navigate(["/Dashboard"])
+    }
+  }
 
   ngOnInit(): void {
     this._ModuleMappingModel = [];
+    this.UpdateAccess = this.authService.hasAccess("ModuleMapping", "UpdateAccess");
     this._Activatedroute.paramMap.subscribe(params => {
       this.RoleId = parseInt(params.get('id'));
     });
@@ -77,12 +88,14 @@ export class ModuleMappingComponent implements OnInit {
     this.apiService.post('api/Master/SetRoleRights/' + this.RoleId, this._ModuleMappingModel,)
       .subscribe(
         data => {
-          console.log(data);
-          this.router.navigate(['/RoleManager']);
+          if (this.coreService.RoleID == this.RoleId.toString()) {
+            this.authService.GeteRoleRights(this.RoleId);
+          }
         },
         err => {
           console.log(err);
-        }
+        },
+        () => this.router.navigate(['/RoleManager'])
       );
 
   }

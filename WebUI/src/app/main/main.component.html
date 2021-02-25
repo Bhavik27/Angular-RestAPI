@@ -10,12 +10,12 @@
             </mat-list-item>
         </mat-nav-list>
         <mat-nav-list class="py-0">
-            <mat-list-item routerLink="/Users" class="px-2" routerLinkActive="active">
+            <mat-list-item routerLink="/Users" class="px-2" routerLinkActive="active" *ngIf="UserMaster">
                 <img src="../../assets/avatar.svg" class="mx-2">Users
             </mat-list-item>
         </mat-nav-list>
         <mat-nav-list class="py-0">
-            <mat-list-item routerLink="/RoleManager" class="px-2" routerLinkActive="active">
+            <mat-list-item routerLink="/RoleManager" class="px-2" routerLinkActive="active" *ngIf="RoleMaster">
                 <img src="../../assets/management.svg" class="mx-2">RoleManager
             </mat-list-item>
         </mat-nav-list>
@@ -25,7 +25,7 @@
             </mat-list-item>
         </mat-nav-list> -->
         <mat-nav-list class="py-0">
-            <mat-list-item routerLink="/ActivityLog" class="px-2" routerLinkActive="active">
+            <mat-list-item routerLink="/ActivityLog" class="px-2" routerLinkActive="active" *ngIf="ActivityLog">
                 <img src="../../assets/log.svg" class="mx-2">ActivityLog
             </mat-list-item>
         </mat-nav-list>

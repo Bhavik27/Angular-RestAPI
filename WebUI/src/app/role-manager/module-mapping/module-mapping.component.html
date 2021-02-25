@@ -52,7 +52,7 @@
             </table>
         </div>
         <div class="p-3 text-center" *ngIf="NotificationMessage.length <= 0">
-            <button mat-raised-button (click)="OnSave()">Save</button>
+            <button mat-raised-button (click)="OnSave()" [disabled]="!UpdateAccess">Save</button>
             <button mat-raised-button (click)="OnCancel()">Cancel</button>
         </div>
     </div>

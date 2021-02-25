@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 import { RoleRequestModel } from '../shared/role.model';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
@@ -13,16 +14,27 @@ import { EditRoleComponent } from './edit-role/edit-role.component';
 })
 export class RoleManagerComponent implements OnInit {
 
+  CreateAccess: boolean = false;
+  UpdateAccess: boolean = false;
+  ManageAccess: boolean = false;
+
   _Role: RoleRequestModel[];
-  // displayColumns: string[] = ['RoleId','Role'];
   displayColumns: string[] = ['Role', 'Action'];
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
-    public router: Router) { }
+    public router: Router,
+    private authService: AuthService) {
+    if (!authService.hasAccess("RoleMaster", "ViewAccess")) {
+      router.navigate(["/Dashboard"])
+    }
+  }
 
 
   ngOnInit(): void {
     this._Role = [];
+    this.CreateAccess = this.authService.hasAccess("RoleMaster", "CreateAccess");
+    this.UpdateAccess = this.authService.hasAccess("RoleMaster", "UpdateAccess");
+    this.ManageAccess = this.authService.hasAccess("ModuleMapping", "ViewAccess");
     this.GetRoles();
   }
 
