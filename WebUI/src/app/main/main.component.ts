@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { title } from 'process';
 import { AuthService } from '../services/auth.service';
+import { CoreService } from '../services/core.service';
 
 @Component({
   selector: 'app-main',
@@ -8,12 +10,17 @@ import { AuthService } from '../services/auth.service';
 })
 export class MainComponent implements OnInit {
 
+  PageTitle: string = ""
   UserMaster: boolean = false;
   RoleMaster: boolean = false;
   ActivityLog: boolean = false;
-
   open: boolean = true;
-  constructor(private authService: AuthService) { }
+
+  constructor(private authService: AuthService,
+    private coreService: CoreService) {
+    coreService.PageTitle.subscribe(title => { this.PageTitle = title })
+
+  }
 
   ngOnInit(): void {
     this.UserMaster = this.authService.hasAccess("UserMaster", "ViewAccess")

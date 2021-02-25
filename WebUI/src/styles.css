@@ -35,5 +35,14 @@ table{
     justify-content: center;
     align-items: center;
 }
+.page-header{
+    width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 0.5rem;
+    display: flex !important;
+    align-items: center;
+    background-color: #fafafa;
+}
 /* light to dark */
 /* #e4f9f5, #30e3ca, #11999e, #40514e */

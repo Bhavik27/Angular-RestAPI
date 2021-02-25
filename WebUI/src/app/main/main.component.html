@@ -33,11 +33,12 @@
 
 
     <mat-sidenav-content>
-        <mat-toolbar>
+        <div class="page-header">
             <button mat-icon-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
-        </mat-toolbar>
+            <span class="ml-2">{{PageTitle}}</span>
+        </div>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 

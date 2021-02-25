@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
+import { CoreService } from '../services/core.service';
 import { RoleRequestModel } from '../shared/role.model';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
@@ -23,10 +24,12 @@ export class RoleManagerComponent implements OnInit {
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
     public router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private coreService: CoreService) {
     if (!authService.hasAccess("RoleMaster", "ViewAccess")) {
       router.navigate(["/Dashboard"])
     }
+    this.coreService.setPageTitle("RoleManager")
   }
 
 

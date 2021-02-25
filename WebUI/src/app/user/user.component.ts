@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
+import { CoreService } from '../services/core.service';
 import { UserModel } from '../shared/user.model';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
@@ -23,10 +24,12 @@ export class UserComponent implements OnInit {
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private coreService:CoreService) {
     if (!authService.hasAccess("UserMaster", "ViewAccess")) {
       router.navigate(["/Dashboard"])
     }
+    this.coreService.setPageTitle("UserMaster")
   }
 
   ngOnInit(): void {

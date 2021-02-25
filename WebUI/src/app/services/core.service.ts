@@ -1,9 +1,12 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CoreService {
+    public Title = new Subject<string>();
+
     set Token(value: string) {
         localStorage.setItem("Token", value)
     }
@@ -24,5 +27,13 @@ export class CoreService {
     get UserAccess() {
         return localStorage.getItem("UserAccess")
     }
+
+    setPageTitle(value: string) {
+        this.Title.next(value);
+    }
+    get PageTitle() {
+        return this.Title.asObservable();
+    }
+
 
 }

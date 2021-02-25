@@ -26,6 +26,7 @@ export class ModuleMappingComponent implements OnInit {
     if (!authService.hasAccess("ModuleMapping", "ViewAccess")) {
       router.navigate(["/Dashboard"])
     }
+    this.coreService.setPageTitle("ModuleMapping")
   }
 
   ngOnInit(): void {

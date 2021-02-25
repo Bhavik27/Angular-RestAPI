@@ -70,7 +70,6 @@ export class AuthService {
           if (Type == "DeleteAccess") { access = Boolean(item.DeleteAccess) }
           if (Type == "ViewAccess") { access = Boolean(item.ViewAccess) }
         }
-        console.log(item.ModuleName);
       }
     }
     return access;

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ChartComponent } from 'ng-apexcharts';
 import { ApiService } from '../services/api.service';
+import { CoreService } from '../services/core.service';
 import { DashBoardModel } from '../shared/dashboard.model';
 
 export type ChartOptions = {
@@ -22,8 +23,29 @@ export class DashboardComponent implements OnInit {
   _dashBoard = new DashBoardModel();
 
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+    private coreService: CoreService) {
     this.LoadChartData(this._dashBoard)
+    this.coreService.setPageTitle("Dashboard")
+  }
+
+  ngOnInit(): void {
+    this.GetChartData()
+  }
+
+  GetChartData() {
+    this.apiService.get('api/DashBoard/GetChartData')
+      .subscribe(
+        data => {
+          this._dashBoard.Male = data.male;
+          this._dashBoard.Female = data.female;
+          this._dashBoard.Other = data.other;
+        },
+        err => console.log(err),
+        () => {
+          this.LoadChartData(this._dashBoard)
+        }
+      )
   }
 
   LoadChartData(data: DashBoardModel) {
@@ -48,25 +70,6 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-  }
-
-  ngOnInit(): void {
-    this.GetChartData()
-  }
-
-  GetChartData() {
-    this.apiService.get('api/DashBoard/GetChartData')
-      .subscribe(
-        data => {
-          this._dashBoard.Male = data.male;
-          this._dashBoard.Female = data.female;
-          this._dashBoard.Other = data.other;
-        },
-        err => console.log(err),
-        () => {
-          this.LoadChartData(this._dashBoard)
-        }
-      )
   }
 
 }
