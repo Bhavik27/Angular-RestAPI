@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { CoreService } from '../services/core.service';
+import { PageModel } from '../shared/page.model';
 import { UserModel } from '../shared/user.model';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
@@ -15,17 +18,18 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 })
 export class UserComponent implements OnInit {
 
-  CreateAccess: boolean = false;
-  UpdateAccess: boolean = false;
-  DeleteAccess: boolean = false;
+  createAccess: boolean = false;
+  updateAccess: boolean = false;
+  deleteAccess: boolean = false;
 
-  _User: UserModel[];
+  user: UserModel[];
+  pageModel = new PageModel();
   displayColumns: string[] = ['UserName', 'FirstName', 'LastName', 'DateOfBirth', 'Gender', 'MailId', 'Action'];
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
-    private coreService:CoreService) {
+    private coreService: CoreService) {
     if (!authService.hasAccess("UserMaster", "ViewAccess")) {
       router.navigate(["/Dashboard"])
     }
@@ -33,18 +37,34 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._User = [];
-    this.CreateAccess = this.authService.hasAccess("UserMaster", "CreateAccess");
-    this.UpdateAccess = this.authService.hasAccess("UserMaster", "UpdateAccess");
-    this.DeleteAccess = this.authService.hasAccess("UserMaster", "DeleteAccess");
-    this.GetUsers();
+    this.user = [];
+    this.pageModel.PageIndex = 0;
+    this.pageModel.PageSize = 5;
+    this.pageModel.OrderBy = "UserName";
+    this.pageModel.SortOrder = "asc";
+    this.createAccess = this.authService.hasAccess("UserMaster", "CreateAccess");
+    this.updateAccess = this.authService.hasAccess("UserMaster", "UpdateAccess");
+    this.deleteAccess = this.authService.hasAccess("UserMaster", "DeleteAccess");
+    this.getUsers();
   }
 
-  GetUsers() {
-    this.apiService.get('api/User/GetUsers')
+  onSortChange(sort:Sort){
+    this.pageModel.OrderBy = sort.active;
+    this.pageModel.SortOrder = sort.direction;
+    this.getUsers();
+  }
+
+  onPageChange(page:PageEvent){
+    this.pageModel.PageIndex = page.pageIndex;
+    this.pageModel.PageSize = page.pageSize;
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.apiService.post('api/User/GetUsers',this.pageModel)
       .subscribe(data => {
-        this._User.length = data[0].totalRecords;
-        this._User = this.convertToModel(data);
+        this.pageModel.Length = data[0].totalRecords;
+        this.user = this.convertToModel(data);
       })
   }
 
@@ -70,7 +90,7 @@ export class UserComponent implements OnInit {
     return data;
   }
 
-  OnDelete(id: number) {
+  onDelete(id: number) {
     this.dialog.open(ConfirmBoxComponent, {
       width: '400px',
     })
@@ -80,13 +100,13 @@ export class UserComponent implements OnInit {
           this.apiService.delete(`api/User/DeleteUser/${id}`)
             .subscribe(data => {
               console.log('record deleted of ' + id);
-              this.GetUsers();
+              this.getUsers();
             });
         }
       });
   }
 
-  OnAdd() {
+  onAdd() {
     this.dialog.open(EditUserComponent,
       {
         width: '800px',
@@ -95,12 +115,12 @@ export class UserComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetUsers();
+          this.getUsers();
         }
       });
   }
 
-  OnEdit(user: any) {
+  onEdit(user: any) {
     this.dialog.open(EditUserComponent,
       {
         width: '800px',
@@ -109,7 +129,7 @@ export class UserComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetUsers();
+          this.getUsers();
         }
       });
   }

@@ -11,27 +11,27 @@ import { RoleRequestModel } from 'src/app/shared/role.model';
 })
 export class EditRoleComponent implements OnInit {
 
-  _Role = new RoleRequestModel();
-  _RoleForm: FormGroup;
+  role = new RoleRequestModel();
+  roleForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<EditRoleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService) { }
 
   ngOnInit(): void {
     if (this.data.RoleId != 0) {
-      this._Role.RoleId = this.data.RoleId;
-      this._Role.RoleName = this.data.Role;
+      this.role.RoleId = this.data.RoleId;
+      this.role.RoleName = this.data.Role;
     }
     console.log(this.data);
     
 
-    this._RoleForm = new FormGroup({
+    this.roleForm = new FormGroup({
       RoleName: new FormControl('')
     })
   }
 
   OnClickSave() {
-    this.apiService.post('api/Master/SaveRoles', this._Role)
+    this.apiService.post('api/Master/SaveRoles', this.role)
       .subscribe(data => {
         console.log(data);
         this.dialogRef.close(1)

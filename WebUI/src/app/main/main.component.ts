@@ -19,13 +19,14 @@ export class MainComponent implements OnInit {
   constructor(private authService: AuthService,
     private coreService: CoreService) {
     coreService.PageTitle.subscribe(title => { this.PageTitle = title })
-
-  }
-
-  ngOnInit(): void {
+    // debugger
     this.UserMaster = this.authService.hasAccess("UserMaster", "ViewAccess")
     this.RoleMaster = this.authService.hasAccess("RoleMaster", "ViewAccess")
     this.ActivityLog = this.authService.hasAccess("ActivityLog", "ViewAccess")
+  }
+
+  ngOnInit(): void {
+
   }
 
 }

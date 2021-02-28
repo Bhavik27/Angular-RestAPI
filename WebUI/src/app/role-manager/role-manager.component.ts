@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ConfirmBoxComponent } from '../main/confirm-box/confirm-box.component';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { CoreService } from '../services/core.service';
+import { PageModel } from '../shared/page.model';
 import { RoleRequestModel } from '../shared/role.model';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
@@ -19,8 +22,9 @@ export class RoleManagerComponent implements OnInit {
   UpdateAccess: boolean = false;
   ManageAccess: boolean = false;
 
-  _Role: RoleRequestModel[];
-  displayColumns: string[] = ['Role', 'Action'];
+  role: RoleRequestModel[];
+  pageModel = new PageModel();
+  displayColumns: string[] = ['RoleName', 'Action'];
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
     public router: Router,
@@ -32,20 +36,35 @@ export class RoleManagerComponent implements OnInit {
     this.coreService.setPageTitle("RoleManager")
   }
 
-
   ngOnInit(): void {
-    this._Role = [];
+    this.role = [];
+    this.pageModel.PageIndex = 0;
+    this.pageModel.PageSize = 5;
+    this.pageModel.OrderBy = "RoleName";
+    this.pageModel.SortOrder = "asc";
     this.CreateAccess = this.authService.hasAccess("RoleMaster", "CreateAccess");
     this.UpdateAccess = this.authService.hasAccess("RoleMaster", "UpdateAccess");
     this.ManageAccess = this.authService.hasAccess("ModuleMapping", "ViewAccess");
-    this.GetRoles();
+    this.getRoles();
   }
 
-  GetRoles() {
-    this.apiService.get('api/Master/GetRoles')
+  onSortChange(sort:Sort){
+    this.pageModel.OrderBy = sort.active;
+    this.pageModel.SortOrder = sort.direction;
+    this.getRoles();
+  }
+
+  onPageChange(page:PageEvent){
+    this.pageModel.PageIndex = page.pageIndex;
+    this.pageModel.PageSize = page.pageSize;
+    this.getRoles();
+  }
+
+  getRoles() {
+    this.apiService.post('api/Master/GetRoles',this.pageModel)
       .subscribe(data => {
-        this._Role.length = data[0].totalRecords;
-        this._Role = this.convertToModel(data);
+        this.pageModel.Length = data[0].totalRecords;
+        this.role = this.convertToModel(data);
       })
   }
 
@@ -71,7 +90,7 @@ export class RoleManagerComponent implements OnInit {
     return data;
   }
 
-  OnAdd() {
+  onAdd() {
     this.dialog.open(EditRoleComponent,
       {
         width: '800px',
@@ -80,12 +99,12 @@ export class RoleManagerComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetRoles();
+          this.getRoles();
         }
       });
   }
 
-  OnEdit(role: any) {
+  onEdit(role: any) {
     this.dialog.open(EditRoleComponent,
       {
         width: '800px',
@@ -94,12 +113,12 @@ export class RoleManagerComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == 1) {
-          this.GetRoles();
+          this.getRoles();
         }
       });
   }
 
-  GetManualMapping(id: number) {
+  getManualMapping(id: number) {
     this.router.navigate(['/ModuleMapping', id])
   }
 

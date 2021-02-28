@@ -11,24 +11,24 @@ import { UserModel } from 'src/app/shared/user.model';
 })
 export class EditUserComponent implements OnInit {
 
-  _User = new UserModel();
-  _UserForm: FormGroup;
+  user = new UserModel();
+  userForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<EditUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService) { }
 
   ngOnInit(): void {
     if (this.data.UserId != 0) {
-      this._User.UserId = this.data.UserId;
-      this._User.UserName = this.data.UserName;
-      this._User.FirstName = this.data.FirstName;
-      this._User.LastName = this.data.LastName;
-      this._User.DateOfBirth = this.data.DateOfBirth;
-      this._User.Gender = this.data.Gender;
-      this._User.MailId = this.data.MailId;
+      this.user.UserId = this.data.UserId;
+      this.user.UserName = this.data.UserName;
+      this.user.FirstName = this.data.FirstName;
+      this.user.LastName = this.data.LastName;
+      this.user.DateOfBirth = this.data.DateOfBirth;
+      this.user.Gender = this.data.Gender;
+      this.user.MailId = this.data.MailId;
     }
 
-    this._UserForm = new FormGroup({
+    this.userForm = new FormGroup({
       UserName: new FormControl(''),
       FirstName: new FormControl(''),
       LastName: new FormControl(''),
@@ -38,8 +38,8 @@ export class EditUserComponent implements OnInit {
     })
   }
 
-  OnClickSave() {
-    this.apiService.post('api/User/SaveUser', this._User)
+  onClickSave() {
+    this.apiService.post('api/User/SaveUser', this.user)
       .subscribe(data => {
         console.log(data);
         this.dialogRef.close(1)

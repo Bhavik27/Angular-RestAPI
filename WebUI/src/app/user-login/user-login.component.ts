@@ -12,33 +12,32 @@ import { UserLoginModel } from '../shared/user.model';
 })
 export class UserLoginComponent implements OnInit {
 
-  _UserLogin = new UserLoginModel();
-  _UserLoginForm: FormGroup;
-  _ErrorMessage: string;
+  userLogin = new UserLoginModel();
+  userLoginForm: FormGroup;
+  errorMessage: string;
   constructor(private apiService: ApiService,
     private authService:AuthService,
     private _router: Router) { }
 
   ngOnInit(): void {
-    this._UserLoginForm = new FormGroup({
+    this.userLoginForm = new FormGroup({
       UserNameControl: new FormControl(''),
       PasswordControl: new FormControl('')
     })
   }
 
-  OnUserLogin() {
-    this.apiService.post('api/User/Authenticate', this._UserLogin)
+  onUserLogin() {
+    this.apiService.post('api/User/Authenticate', this.userLogin)
       .subscribe(data => {
         if (data == 0) {
-          this._ErrorMessage = "User Not Found"
+          this.errorMessage = "User Not Found"
         }
         else if (data == -1) {
-          this._ErrorMessage = "Incorrect UserName and Password"
+          this.errorMessage = "Incorrect UserName and Password"
         }
         else {
-          this._ErrorMessage = null;
+          this.errorMessage = null;
           this.authService.Authenticate(data);
-          this._router.navigate(['/Dashboard'])
         }
       },
         (err) => {
@@ -46,7 +45,7 @@ export class UserLoginComponent implements OnInit {
         },
         () => {
           setTimeout(() => {
-            this._ErrorMessage = ""
+            this.errorMessage = ""
           }, 3000)
         });
   }
