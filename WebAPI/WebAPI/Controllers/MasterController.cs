@@ -19,11 +19,11 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetRoles")]
-        public async Task<ActionResult> GetRoles()
+        public async Task<ActionResult> GetRoles(PageModel pageModel)
         {
-            var data = await Task.FromResult(_service.GetRoles());
+            var data = await Task.FromResult(_service.GetRoles(pageModel));
             return Ok(data);
         }
 

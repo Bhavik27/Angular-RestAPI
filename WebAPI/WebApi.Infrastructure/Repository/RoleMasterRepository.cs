@@ -18,7 +18,7 @@ namespace WebAPI.Infrastructure.Repository
             _context = context;
             _logRepository = logRepository;
         }
-        public List<VMRoleMaster> GetRoles()
+        public List<VMRoleMaster> GetRoles(PageModel pageModel)
         {
             List<VMRoleMaster> data = new List<VMRoleMaster>();
 
@@ -32,7 +32,14 @@ namespace WebAPI.Infrastructure.Repository
                         RoleName = d.RoleName,
                         TotalRecords = totalRecords
                     }).ToList();
-
+            if(pageModel.SortOrder == "desc")
+            {
+                data = PagingUtils.OrderDesc<VMRoleMaster>(data.AsQueryable<VMRoleMaster>(), pageModel).ToList();
+            }
+            else
+            {
+                data = PagingUtils.OrderAsc<VMRoleMaster>(data.AsQueryable<VMRoleMaster>(), pageModel).ToList();
+            }
             return data;
         }
 

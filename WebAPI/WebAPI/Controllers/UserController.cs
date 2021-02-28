@@ -18,11 +18,11 @@ namespace WebAPI.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/[controller]/GetUsers")]
-        public async Task<ActionResult> GetUsers()
+        public async Task<ActionResult> GetUsers(PageModel pageModel)
         {
-            var result = await Task.FromResult(_service.GetUsers());
+            var result = await Task.FromResult(_service.GetUsers(pageModel));
             return Ok(result);
         }
 

@@ -14,6 +14,7 @@ namespace WebAPI.Infrastructure.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public int IsActive { get; set; }
         public string Gender { get; set; }
         public string MailId { get; set; }
         public int? CreatedBy { get; set; }

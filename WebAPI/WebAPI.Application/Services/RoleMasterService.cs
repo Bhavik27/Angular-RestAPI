@@ -16,9 +16,9 @@ namespace WebAPI.Application.Services
             _repository = repository;
         }
 
-        public List<VMRoleMaster> GetRoles()
+        public List<VMRoleMaster> GetRoles(PageModel pageModel)
         {
-            var data = _repository.GetRoles();
+            var data = _repository.GetRoles(pageModel);
             return data;
         }
 

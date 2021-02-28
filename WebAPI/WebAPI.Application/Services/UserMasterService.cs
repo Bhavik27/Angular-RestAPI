@@ -16,9 +16,9 @@ namespace WebAPI.Application.Interfaces
             _repository = repository;
         }
 
-        List<VMUserMaster> IUserMasterService.GetUsers()
+        List<VMUserMaster> IUserMasterService.GetUsers(PageModel pageModel)
         {
-            var data = _repository.GetUsers();
+            var data = _repository.GetUsers(pageModel);
             return data;
         }
 

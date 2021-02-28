@@ -19,7 +19,7 @@ namespace WebAPI.Infrastructure.Repository
             _logRepository = logRepository;
         }
 
-        public List<VMUserMaster> GetUsers()
+        public List<VMUserMaster> GetUsers(PageModel pageModel)
         {
             List<VMUserMaster> data = new List<VMUserMaster>();
             var data2 = _context.UserMasters.ToList();
@@ -40,6 +40,14 @@ namespace WebAPI.Infrastructure.Repository
                         UpdatedTime = d.UpdatedTime,
                         TotalRecords = TotalRecords,
                     }).ToList();
+            if (pageModel.SortOrder == "desc")
+            {
+                data = PagingUtils.OrderDesc<VMUserMaster>(data.AsQueryable<VMUserMaster>(), pageModel).ToList();
+            }
+            else
+            {
+                data = PagingUtils.OrderAsc<VMUserMaster>(data.AsQueryable<VMUserMaster>(), pageModel).ToList();
+            }
             return data;
         }
 
@@ -68,6 +76,7 @@ namespace WebAPI.Infrastructure.Repository
                 data.LastName = user.LastName;
                 data.MailId = user.MailId;
                 data.Gender = user.Gender;
+                data.IsActive = user.IsActive;
                 data.DateOfBirth = user.DateOfBirth;
                 data.UpdatedTime = DateTime.Now;
                 data.UpdatedBy = 1;
