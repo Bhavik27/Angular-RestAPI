@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WebAPI.Infrastructure.Models;
 using WebAPI.Infrastructure.Models.VModels;
 
-namespace WebAPI.Infrastructure.Interfaces
+namespace WebAPI.Application.Interfaces
 {
-    public interface IActivityLogRepository
+    public interface IActivityLogService
     {
-        public void SetActivityLog(ActivityLog log, int UserId);
         public List<VMActivityLog> GetActivityLogs(PageModel pageModel);
     }
 }

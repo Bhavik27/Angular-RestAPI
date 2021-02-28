@@ -64,9 +64,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.Activity = "New User Created - " + user.UserName;
                 activity.ActivityType = "CREATE";
-                _logRepository.SetActivityLog(activity);
+                int UserId = 1;
+                _logRepository.SetActivityLog(activity, UserId);
             }
             else
             {
@@ -85,9 +85,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.Activity = "User Updated - " + user.UserName;
                 activity.ActivityType = "UPDATE";
-                _logRepository.SetActivityLog(activity);
+                int UserId = 1;
+                _logRepository.SetActivityLog(activity, UserId);
             }
             return 1;
         }
@@ -101,9 +101,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.Activity = "User Removed - " + tempUser;
                 activity.ActivityType = "DELETE";
-                _logRepository.SetActivityLog(activity);
+                int UserId = 1;
+                _logRepository.SetActivityLog(activity, UserId);
                 return 1;
             }
             return 0;

@@ -42,6 +42,7 @@ namespace WebAPI
             services.AddTransient<IRoleMasterService, RoleMasterService>();
 
             services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
+            services.AddScoped<IActivityLogService, ActivityLogService>();
 
             services.AddScoped<IUserMasterRepository, UserMasterRepository>();
             services.AddScoped<IUserMasterService, UserMasterService>();

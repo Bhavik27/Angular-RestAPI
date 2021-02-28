@@ -32,7 +32,7 @@ namespace WebAPI.Infrastructure.Repository
                         RoleName = d.RoleName,
                         TotalRecords = totalRecords
                     }).ToList();
-            if(pageModel.SortOrder == "desc")
+            if (pageModel.SortOrder == "desc")
             {
                 data = PagingUtils.OrderDesc<VMRoleMaster>(data.AsQueryable<VMRoleMaster>(), pageModel).ToList();
             }
@@ -57,9 +57,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.Activity = "New Role Created - " + roleMaster.RoleName;
                 activity.ActivityType = "CREATE";
-                _logRepository.SetActivityLog(activity);
+                int userId = 1;
+                _logRepository.SetActivityLog(activity, userId);
             }
             else
             {
@@ -71,9 +71,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.Activity = "Role Updated - " + roleMaster.RoleName;
                 activity.ActivityType = "UPDATE";
-                _logRepository.SetActivityLog(activity);
+                int UserId = 1;
+                _logRepository.SetActivityLog(activity, UserId);
             }
             return 1;
         }

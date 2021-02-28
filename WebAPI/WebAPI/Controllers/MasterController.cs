@@ -12,10 +12,12 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class MasterController : ControllerBase
     {
-        private IRoleMasterService _service;
-        public MasterController(IRoleMasterService service)
+        private readonly IRoleMasterService _roleService;
+        private readonly IActivityLogService _activityService;
+        public MasterController(IRoleMasterService roleService, IActivityLogService activityService)
         {
-            _service = service;
+            _roleService = roleService;
+            _activityService = activityService;
         }
 
 
@@ -23,7 +25,7 @@ namespace WebAPI.Controllers
         [Route("GetRoles")]
         public async Task<ActionResult> GetRoles(PageModel pageModel)
         {
-            var data = await Task.FromResult(_service.GetRoles(pageModel));
+            var data = await Task.FromResult(_roleService.GetRoles(pageModel));
             return Ok(data);
         }
 
@@ -31,7 +33,7 @@ namespace WebAPI.Controllers
         [Route("SaveRoles")]
         public async Task<ActionResult> SaveRoles(VMRoleMaster roleMaster)
         {
-            var data = await Task.FromResult(_service.SaveRoles(roleMaster));
+            var data = await Task.FromResult(_roleService.SaveRoles(roleMaster));
             return Ok(data);
         }
 
@@ -39,7 +41,7 @@ namespace WebAPI.Controllers
         [Route("GeteRoleRights/{RoleID}")]
         public async Task<ActionResult> GeteRoleRights(int RoleID)
         {
-            var data = await Task.FromResult(_service.GeteRoleRights(RoleID));
+            var data = await Task.FromResult(_roleService.GeteRoleRights(RoleID));
             return Ok(data);
         }
 
@@ -47,8 +49,17 @@ namespace WebAPI.Controllers
         [Route("SetRoleRights/{RoleID}")]
         public async Task<ActionResult> SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
         {
-            var data = await Task.FromResult(_service.SetRoleRights(vMRoles, RoleID));
+            var data = await Task.FromResult(_roleService.SetRoleRights(vMRoles, RoleID));
             return Ok(data);
         }
+
+        [HttpPost]
+        [Route("GetActivityLogs")]
+        public async Task<ActionResult> GetActivityLogs(PageModel pageModel)
+        {
+            var data = await Task.FromResult(_activityService.GetActivityLogs(pageModel));
+            return Ok(data);
+        }
+
     }
 }
