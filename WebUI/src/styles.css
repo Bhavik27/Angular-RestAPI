@@ -42,7 +42,15 @@ table{
     padding: 0.5rem;
     display: flex !important;
     align-items: center;
-    background-color: #fafafa;
+    background-color: #fff;
 }
+
+mat-list-item.mat-focus-indicator.mat-list-item{
+    color: #eeeeee;
+}
+mat-list-item.active.mat-focus-indicator.mat-list-item{
+    background-color: #222831; 
+}
+/* 364f6b */
 /* light to dark */
 /* #e4f9f5, #30e3ca, #11999e, #40514e */

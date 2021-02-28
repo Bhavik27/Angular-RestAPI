@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModuleMappingModel } from '../shared/module.model';
 import { ApiService } from './api.service';
 import { CoreService } from './core.service';
@@ -10,8 +11,16 @@ export class AuthService {
 
   _ModuleMappingModel: ModuleMappingModel[];
 
+  set UserAccess(value: ModuleMappingModel[]) {
+    localStorage.setItem("UserAccess", JSON.stringify(value))
+  }
+  get UserAccess(): ModuleMappingModel[] {
+    return JSON.parse(localStorage.getItem("UserAccess"))
+  }
+
   constructor(private coreService: CoreService,
-    private apiService: ApiService) { }
+    private apiService: ApiService,
+    private _router: Router) { }
 
   public isAuthenticated(): boolean {
     const token = (this.coreService.Token != null) ? true : false;
@@ -19,6 +28,7 @@ export class AuthService {
   }
 
   public Authenticate(RoleID: number) {
+    // debugger
     this.coreService.Token = "true"
     this.coreService.RoleID = RoleID.toString()
     this.GeteRoleRights(RoleID)
@@ -28,9 +38,9 @@ export class AuthService {
     this.apiService.get('api/Master/GeteRoleRights/' + RoleId)
       .subscribe(
         data => {
-          this._ModuleMappingModel = this.convertToModel(data)
-          if (this._ModuleMappingModel.length > 0) {
-            this.coreService.UserAccess = JSON.stringify(data);
+          this.UserAccess = this.convertToModel(data)
+          if (this.hasAccess("Dashboard", "ViewAccess")) {
+            this._router.navigate(['/Dashboard'])
           }
         },
         err => console.log(err)
@@ -39,6 +49,7 @@ export class AuthService {
 
   convertToModel(value: any): ModuleMappingModel[] {
     const data = [];
+    // debugger
     if (value != null || value.length != 0) {
       for (var v of value) {
         data.push({
@@ -61,9 +72,9 @@ export class AuthService {
 
   hasAccess(ModuleName: string, Type: string) {
     let access = false;
-    this._ModuleMappingModel = this.convertToModel(JSON.parse(this.coreService.UserAccess));
-    if (this._ModuleMappingModel != null && this._ModuleMappingModel != undefined && this._ModuleMappingModel.length > 0) {
-      for (var item of this._ModuleMappingModel) {
+
+    if (this.UserAccess != null && this.UserAccess != undefined && this.UserAccess.length > 0) {
+      for (var item of this.UserAccess) {
         if (item.ModuleName == ModuleName) {
           if (Type == "CreateAccess") { access = Boolean(item.CreateAccess) }
           if (Type == "UpdateAccess") { access = Boolean(item.UpdateAccess) }

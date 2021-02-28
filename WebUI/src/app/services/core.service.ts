@@ -21,13 +21,6 @@ export class CoreService {
         return localStorage.getItem("RoleID")
     }
 
-    set UserAccess(value: string) {
-        localStorage.setItem("UserAccess", value)
-    }
-    get UserAccess() {
-        return localStorage.getItem("UserAccess")
-    }
-
     setPageTitle(value: string) {
         this.Title.next(value);
     }

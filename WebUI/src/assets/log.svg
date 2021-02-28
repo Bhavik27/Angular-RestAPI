@@ -1,4 +1,4 @@
-<svg height="40" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<svg height="40" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"  fill="#eeeeee">
 <g id="Outline">
 <path d="m288 112h16v16h-16z"/>
 <path d="m320 112h40v16h-40z"/>
