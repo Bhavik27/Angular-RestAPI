@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { CoreService } from '../services/core.service';
+import { ActivityLog } from '../shared/activity.model';
+import { PageModel } from '../shared/page.model';
 
 @Component({
   selector: 'app-activity-log',
@@ -10,7 +15,12 @@ import { CoreService } from '../services/core.service';
 })
 export class ActivityLogComponent implements OnInit {
 
+  activity: ActivityLog[];
+  pageModel = new PageModel();
+  panelOpenState = false;
+
   constructor(private authService: AuthService,
+    private apiService: ApiService,
     private router: Router,
     private coreService: CoreService) {
     if (!authService.hasAccess("ActivityLog", "ViewAccess"))
@@ -19,6 +29,43 @@ export class ActivityLogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activity = [];
+    this.pageModel.PageIndex = 0;
+    this.pageModel.PageSize = 10;
+    this.pageModel.OrderBy = "ActivityTime";
+    this.pageModel.SortOrder = "desc";
+    this.getActivityLogs();
+  }
+
+  onPageChange(page:PageEvent){
+    this.pageModel.PageIndex = page.pageIndex;
+    this.pageModel.PageSize = page.pageSize;
+    this.getActivityLogs();
+  }
+
+  getActivityLogs() {
+    this.apiService.post('api/Master/GetActivityLogs', this.pageModel)
+      .subscribe(data => {
+        this.pageModel.Length = data[0].totalRecords;
+        this.activity = this.convertToModel(data);
+      })
+  }
+
+  convertToModel(value: any): ActivityLog[] {
+    const data = [];
+    if (value != null || value.length != 0) {
+      for (var v of value) {
+        data.push({
+          ActivityLogId: v.ActivityLogId,
+          ActivityOn: v.activityOn,
+          ActivityType: v.activityType,
+          ActivityByName: v.activityByName,
+          ActivityTime: v.activityTime,
+          TotalRecords: v.totalRecords,
+        });
+      }
+    }
+    return data;
   }
 
 }

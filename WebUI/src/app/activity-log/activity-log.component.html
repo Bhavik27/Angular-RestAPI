@@ -1,7 +1,27 @@
 <div class="container-fluid pt-2">
     <div class="card">
         <div class="card-body">
-            <p>activity-log works!</p>
+            <mat-accordion *ngFor="let item of activity">
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="mb-1">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{item.ActivityOn}} is {{item.ActivityType.toLocaleLowerCase()}}d 
+                            by {{item.ActivityByName}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                                <mat-chip-list >
+                                    <mat-chip [ngClass]="[(item.ActivityType == 'CREATE')?'bg-primary':'',
+                                    (item.ActivityType == 'UPDATE')?'bg-warning':'',
+                                    (item.ActivityType == 'DELETE')?'bg-danger':'']" class="text-white">{{item.ActivityType}}</mat-chip>
+                                </mat-chip-list>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>Duration : {{item.ActivityTime}}</p>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <mat-paginator class="mat-elevation-z2" [pageSizeOptions]="[10,20,30]" [length]="pageModel.Length"
+                [pageSize]="pageModel.PageSize" (page)="onPageChange($event)" showFirstLastButtons>
+            </mat-paginator>
         </div>
     </div>
 </div>
