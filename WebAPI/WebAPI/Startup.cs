@@ -16,6 +16,8 @@ using Microsoft.OpenApi.Models;
 using WebAPI.Application.Interfaces;
 using WebAPI.Application.Mapper;
 using WebAPI.Application.Services;
+using WebAPI.Core.Interface;
+using WebAPI.Core.Repository;
 using WebAPI.Infrastructure.context;
 using WebAPI.Infrastructure.Interfaces;
 using WebAPI.Infrastructure.Repository;
@@ -49,6 +51,8 @@ namespace WebAPI
 
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IDashboardService, DashboardService>();
+
+            services.AddScoped<ICoreRepository, CoreRepository>();
 
             services.AddCors(c =>
             {

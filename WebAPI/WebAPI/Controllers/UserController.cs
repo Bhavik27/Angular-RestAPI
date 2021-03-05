@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebAPI.Application.Services;
 using WebAPI.Infrastructure.Models;
 using WebAPI.Infrastructure.Models.VModels;
@@ -13,9 +14,11 @@ namespace WebAPI.Controllers
     public class UserController : ControllerBase
     {
         private IUserMasterService _service;
-        public UserController(IUserMasterService service)
+        private readonly IConfiguration _configuration;
+        public UserController(IUserMasterService service, IConfiguration configuration)
         {
             _service = service;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -46,7 +49,9 @@ namespace WebAPI.Controllers
         [Route("api/[controller]/Authenticate")]
         public async Task<ActionResult> Authenticate(VMUserLogin userLogin)
         {
-            var result = await Task.FromResult(_service.Authenticate(userLogin));
+            byte[] Key = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("Key").Value);
+            byte[] IV = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("IV").Value);
+            var result = await Task.FromResult(_service.Authenticate(userLogin, Key, IV));
             return Ok(result);
         }
     }

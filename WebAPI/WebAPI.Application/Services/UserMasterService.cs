@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WebAPI.Application.Services;
+using WebAPI.Core.Interface;
 using WebAPI.Infrastructure.Interfaces;
 using WebAPI.Infrastructure.Models;
 using WebAPI.Infrastructure.Models.VModels;
@@ -11,9 +12,11 @@ namespace WebAPI.Application.Interfaces
     public class UserMasterService : IUserMasterService
     {
         private IUserMasterRepository _repository;
-        public UserMasterService(IUserMasterRepository repository)
+        private ICoreRepository _coreRepository;
+        public UserMasterService(IUserMasterRepository repository, ICoreRepository coreRepository)
         {
             _repository = repository;
+            _coreRepository = coreRepository;
         }
 
         List<VMUserMaster> IUserMasterService.GetUsers(PageModel pageModel)
@@ -34,8 +37,9 @@ namespace WebAPI.Application.Interfaces
             return data;
         }
 
-        public int Authenticate(VMUserLogin userLogin)
+        public int Authenticate(VMUserLogin userLogin, byte[] Key, byte[] IV)
         {
+            userLogin.Password = Convert.ToBase64String(_coreRepository.EncryptString(userLogin.Password, Key, IV));
             int data = _repository.Authenticate(userLogin);
             return data;
         }
