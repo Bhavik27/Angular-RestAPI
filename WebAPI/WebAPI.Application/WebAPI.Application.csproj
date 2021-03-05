@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApi.Infrastructure\WebAPI.Infrastructure.csproj" />
+    <ProjectReference Include="..\WebAPI.Shared\WebAPI.Core.csproj" />
   </ItemGroup>
 
 </Project>
