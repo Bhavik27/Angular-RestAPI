@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModuleMappingModel } from '../shared/module.model';
+import { UserLoginReponseModel } from '../shared/user.model';
 import { ApiService } from './api.service';
 import { CoreService } from './core.service';
 
@@ -27,11 +28,12 @@ export class AuthService {
     return token;
   }
 
-  public Authenticate(RoleID: number) {
-    // debugger
-    this.coreService.Token = "true"
-    this.coreService.RoleID = RoleID.toString()
-    this.GeteRoleRights(RoleID)
+  public Authenticate(userLoginReponse:UserLoginReponseModel) {
+    debugger
+    this.coreService.Token = userLoginReponse.token
+    this.coreService.UserName = userLoginReponse.userName
+    this.coreService.RoleID = userLoginReponse.roleID.toString()
+    this.GeteRoleRights(userLoginReponse.roleID)
   }
 
   GeteRoleRights(RoleId: number) {
