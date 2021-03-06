@@ -109,20 +109,11 @@ namespace WebAPI.Infrastructure.Repository
             return 0;
         }
 
-        public int Authenticate(VMUserLogin userLogin)
+        public UserMaster Authenticate(VMUserLogin userLogin)
         {
-            if (_context.UserMasters.Where(u => u.UserName == userLogin.UserName).FirstOrDefault() != null)
-            {
-                var data = _context.UserMasters.Where(u => u.Password == userLogin.Password).FirstOrDefault();
-                if (data != null)
-                    return data.Role;
-                else
-                    return -1;
-            }
-            else
-            {
-                return 0;
-            }
+            return _context.UserMasters
+                .Where(x => x.UserName == userLogin.UserName && x.Password == userLogin.Password)
+                .FirstOrDefault();
         }
     }
 }

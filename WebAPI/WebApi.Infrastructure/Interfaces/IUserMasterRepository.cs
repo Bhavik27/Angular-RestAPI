@@ -11,6 +11,6 @@ namespace WebAPI.Infrastructure.Interfaces
         public List<VMUserMaster> GetUsers(PageModel pageModel);
         public int SaveUser(UserMaster user);
         public int DeleteUser(int id);
-        public int Authenticate(VMUserLogin userLogin);
+        public UserMaster Authenticate(VMUserLogin userLogin);
     }
 }

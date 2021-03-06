@@ -37,11 +37,16 @@ namespace WebAPI.Application.Interfaces
             return data;
         }
 
-        public int Authenticate(VMUserLogin userLogin, byte[] Key, byte[] IV)
+        public VMUserLoginRespose Authenticate(VMUserLogin userLogin, byte[] Key, byte[] IV)
         {
             userLogin.Password = Convert.ToBase64String(_coreRepository.EncryptString(userLogin.Password, Key, IV));
-            int data = _repository.Authenticate(userLogin);
-            return data;
+            UserMaster user = _repository.Authenticate(userLogin);
+            var token = _coreRepository.TokenGenerator(user);
+            VMUserLoginRespose loginRespose = new VMUserLoginRespose();
+            loginRespose.Token = token;
+            loginRespose.RoleID = user.Role;
+            loginRespose.UserName = user.UserName;
+            return loginRespose;
         }
     }
 }

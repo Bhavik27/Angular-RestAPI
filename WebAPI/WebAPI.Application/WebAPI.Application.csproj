@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebAPI.Core\WebAPI.Core.csproj" />
     <ProjectReference Include="..\WebApi.Infrastructure\WebAPI.Infrastructure.csproj" />
-    <ProjectReference Include="..\WebAPI.Shared\WebAPI.Core.csproj" />
   </ItemGroup>
 
 </Project>
