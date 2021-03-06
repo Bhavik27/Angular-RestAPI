@@ -9,8 +9,9 @@ namespace WebAPI.Infrastructure.Interfaces
     public interface IUserMasterRepository
     {
         public List<VMUserMaster> GetUsers(PageModel pageModel);
-        public int SaveUser(UserMaster user);
-        public int DeleteUser(int id);
+        public int SaveUser(UserMaster user, int UserID);
+        public int DeleteUser(int id, int UserID);
         public UserMaster Authenticate(VMUserLogin userLogin);
+        public void SaveToken(string Token, int UserID);
     }
 }

@@ -22,9 +22,9 @@ namespace WebAPI.Application.Services
             return data;
         }
 
-        public int SaveRoles(VMRoleMaster roleMaster)
+        public int SaveRoles(VMRoleMaster roleMaster, int UserID)
         {
-            var data = _repository.SaveRoles(roleMaster);
+            var data = _repository.SaveRoles(roleMaster, UserID);
             return data;
         }
 
@@ -34,9 +34,9 @@ namespace WebAPI.Application.Services
             return data;
         }
 
-        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
+        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID, int UserID)
         {
-            var data = _repository.SetRoleRights(vMRoles,RoleID);
+            var data = _repository.SetRoleRights(vMRoles, RoleID, UserID);
             return data;
         }
     }

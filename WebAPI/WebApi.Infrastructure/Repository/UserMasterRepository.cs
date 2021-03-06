@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -51,12 +51,12 @@ namespace WebAPI.Infrastructure.Repository
             return data;
         }
 
-        public int SaveUser(UserMaster user)
+        public int SaveUser(UserMaster user, int UserID)
         {
             if (_context.UserMasters.Where(u => u.UserId == user.UserId).FirstOrDefault() == null)
             {
-                user.CreatedBy = 1;
-                user.Role = 1;
+                user.CreatedBy = UserID;
+                user.Role = 2;
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedBy = null;
                 user.UpdatedTime = null;
@@ -79,19 +79,18 @@ namespace WebAPI.Infrastructure.Repository
                 data.IsActive = user.IsActive;
                 data.DateOfBirth = user.DateOfBirth;
                 data.UpdatedTime = DateTime.Now;
-                data.UpdatedBy = 1;
-                data.Role = 1;
+                data.UpdatedBy = UserID;
+                data.Role = 2;
                 _context.Update(data);
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
                 activity.ActivityType = "UPDATE";
-                int UserId = 1;
-                _logRepository.SetActivityLog(activity, UserId);
+                _logRepository.SetActivityLog(activity, UserID);
             }
             return 1;
         }
-        public int DeleteUser(int id)
+        public int DeleteUser(int id, int UserID)
         {
             UserMaster vMUser = _context.UserMasters.Where(u => u.UserId == id).FirstOrDefault();
             if (vMUser != null)
@@ -102,8 +101,7 @@ namespace WebAPI.Infrastructure.Repository
 
                 ActivityLog activity = new ActivityLog();
                 activity.ActivityType = "DELETE";
-                int UserId = 1;
-                _logRepository.SetActivityLog(activity, UserId);
+                _logRepository.SetActivityLog(activity, UserID);
                 return 1;
             }
             return 0;

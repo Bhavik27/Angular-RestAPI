@@ -9,8 +9,8 @@ namespace WebAPI.Application.Interfaces
     public interface IRoleMasterService
     {
         public List<VMRoleMaster> GetRoles(PageModel pageModel);
-        public int SaveRoles(VMRoleMaster roleMaster);
+        public int SaveRoles(VMRoleMaster roleMaster, int UserID);
         public List<VMRoleAccess> GeteRoleRights(int RoleID);
-        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID);
+        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID, int UserID);
     }
 }

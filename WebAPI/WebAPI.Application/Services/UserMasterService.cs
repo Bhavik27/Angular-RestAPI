@@ -25,15 +25,15 @@ namespace WebAPI.Application.Interfaces
             return data;
         }
 
-        int IUserMasterService.SaveUser(UserMaster user)
+        int IUserMasterService.SaveUser(UserMaster user, int UserID)
         {
-            int data = _repository.SaveUser(user);
+            int data = _repository.SaveUser(user, UserID);
             return data;
         }
 
-        int IUserMasterService.DeleteUser(int id)
+        int IUserMasterService.DeleteUser(int id, int UserID)
         {
-            int data = _repository.DeleteUser(id);
+            int data = _repository.DeleteUser(id, UserID);
             return data;
         }
 

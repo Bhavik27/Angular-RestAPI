@@ -9,8 +9,8 @@ namespace WebAPI.Application.Services
     public interface IUserMasterService
     {
         public List<VMUserMaster> GetUsers(PageModel pageModel);
-        public int SaveUser(UserMaster user);
-        public int DeleteUser(int id);
+        public int SaveUser(UserMaster user, int UserID);
+        public int DeleteUser(int id, int UserID);
         public VMUserLoginRespose Authenticate(VMUserLogin userLogin, byte[] Key, byte[] IV);
     }
 }

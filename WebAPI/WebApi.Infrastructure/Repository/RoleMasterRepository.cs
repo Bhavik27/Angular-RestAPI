@@ -43,13 +43,13 @@ namespace WebAPI.Infrastructure.Repository
             return data;
         }
 
-        public int SaveRoles(VMRoleMaster roleMaster)
+        public int SaveRoles(VMRoleMaster roleMaster, int UserID)
         {
             if (_context.RoleMasters.Where(u => u.RoleId == roleMaster.RoleId).FirstOrDefault() == null)
             {
                 RoleMaster role = new RoleMaster();
                 role.RoleName = roleMaster.RoleName;
-                role.CreatedBy = 1;
+                role.CreatedBy = UserID;
                 role.CreatedTime = DateTime.Now;
                 role.UpdatedBy = null;
                 role.UpdatedTime = null;
@@ -58,22 +58,20 @@ namespace WebAPI.Infrastructure.Repository
 
                 ActivityLog activity = new ActivityLog();
                 activity.ActivityType = "CREATE";
-                int userId = 1;
-                _logRepository.SetActivityLog(activity, userId);
+                _logRepository.SetActivityLog(activity, UserID);
             }
             else
             {
                 var data = _context.RoleMasters.FirstOrDefault(u => u.RoleId == roleMaster.RoleId);
                 data.RoleName = roleMaster.RoleName;
                 data.UpdatedTime = DateTime.Now;
-                data.UpdatedBy = 1;
+                data.UpdatedBy = UserID;
                 _context.RoleMasters.Update(data);
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
                 activity.ActivityType = "UPDATE";
-                int UserId = 1;
-                _logRepository.SetActivityLog(activity, UserId);
+                _logRepository.SetActivityLog(activity, UserID);
             }
             return 1;
         }
@@ -100,7 +98,7 @@ namespace WebAPI.Infrastructure.Repository
             return data2;
         }
 
-        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID)
+        public int SetRoleRights(List<VMRoleAccess> vMRoles, int RoleID, int UserID)
         {
             foreach (var item in vMRoles)
             {
@@ -109,11 +107,15 @@ namespace WebAPI.Infrastructure.Repository
                 roleAccess.CreateAccess = item.CreateAccess;
                 roleAccess.UpdateAccess = item.UpdateAccess;
                 roleAccess.DeleteAccess = item.DeleteAccess;
-                roleAccess.UpdatedBy = 1;
+                roleAccess.UpdatedBy = UserID;
                 roleAccess.UpdatedTime = DateTime.Now;
                 _context.RoleAccessMasters.Update(roleAccess);
                 _context.SaveChanges();
             }
+
+            ActivityLog activity = new ActivityLog();
+            activity.ActivityType = "Update Access";
+            _logRepository.SetActivityLog(activity, UserID);
             return 0;
         }
     }

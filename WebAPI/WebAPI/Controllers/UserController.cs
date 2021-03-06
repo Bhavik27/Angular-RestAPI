@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +34,8 @@ namespace WebAPI.Controllers
         [Route("api/[controller]/SaveUser")]
         public async Task<ActionResult> SaveUser(UserMaster userMaster)
         {
-            var result = await Task.FromResult(_service.SaveUser(userMaster));
+            int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
+            var result = await Task.FromResult(_service.SaveUser(userMaster, UserID));
             return Ok(result);
         }
 
@@ -41,7 +43,8 @@ namespace WebAPI.Controllers
         [Route("api/[controller]/DeleteUser/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var result = await Task.FromResult(_service.DeleteUser(id));
+            int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
+            var result = await Task.FromResult(_service.DeleteUser(id, UserID));
             return Ok(result);
         }
 
