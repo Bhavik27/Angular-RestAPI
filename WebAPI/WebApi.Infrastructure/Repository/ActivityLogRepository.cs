@@ -17,14 +17,27 @@ namespace WebAPI.Infrastructure.Repository
             _context = context;
         }
 
-        public void SetActivityLog(ActivityLog log, int UserId)
+        public void SetActivityLog(ActivityLog log, int ModifiedId, int ModiferId)
         {
-            var data = _context.UserMasters.Where(x => x.UserId == UserId).FirstOrDefault();
             ActivityLog activity = new ActivityLog();
-            activity.ActivityOn = data.UserId;
-            activity.ActivityBy = 1;
-            activity.ActivityTime = DateTime.Now;
-            activity.ActivityType = log.ActivityType;
+            if (log.ActivityFor == "User")
+            {
+                var data = _context.UserMasters.Where(x => x.UserId == ModifiedId).FirstOrDefault();
+                activity.ActivityOn = data.UserId;
+                activity.ActivityBy = ModiferId;
+                activity.ActivityTime = DateTime.Now;
+                activity.ActivityType = log.ActivityType;
+                activity.ActivityFor = log.ActivityFor;
+            }
+            if (log.ActivityFor == "Role")
+            {
+                var data = _context.RoleMasters.Where(x => x.RoleId == ModifiedId).FirstOrDefault();
+                activity.ActivityOn = data.RoleId;
+                activity.ActivityBy = ModiferId;
+                activity.ActivityTime = DateTime.Now;
+                activity.ActivityType = log.ActivityType;
+                activity.ActivityFor = log.ActivityFor;
+            }
             _context.ActivityLogs.Add(activity);
             _context.SaveChanges();
         }
@@ -35,26 +48,34 @@ namespace WebAPI.Infrastructure.Repository
 
             var data = (from activity in _context.ActivityLogs
                         join user in _context.UserMasters on activity.ActivityBy equals user.UserId
+                        join role in _context.RoleMasters on user.Role equals role.RoleId
                         //where activity.ActivityBy > 0
                         select new
                         {
-                            ActivityOn = activity.ActivityBy,
+                            ActivityOn = activity.ActivityOn,
                             ActivityByName = activity.ActivityBy,
                             ActivityLogId = activity.ActivityLogId,
                             ActivityTime = activity.ActivityTime,
-                            ActivityType = activity.ActivityType
+                            ActivityType = activity.ActivityType,
+                            ActivityFor = activity.ActivityFor
                         }).ToList();
             int totalRecords = data.Count;
+
             var data2 = (from d in data
                          select new VMActivityLog
                          {
-                             ActivityOn = _context.UserMasters.Where(x=>x.UserId == d.ActivityOn)
-                                            .Select(x => x.UserName).FirstOrDefault(),
+                             ActivityOn = (d.ActivityFor == "Role") ? _context.RoleMasters
+                                                                                    .Where(x => x.RoleId == d.ActivityOn)
+                                                                                    .Select(x => x.RoleName).FirstOrDefault()
+                                                                    : _context.UserMasters
+                                                                                    .Where(x => x.UserId == d.ActivityOn)
+                                                                                    .Select(x => x.UserName).FirstOrDefault(),
                              ActivityByName = _context.UserMasters.Where(x => x.UserId == d.ActivityByName)
                                             .Select(x => x.UserName).FirstOrDefault(),
                              ActivityLogId = d.ActivityLogId,
                              ActivityTime = d.ActivityTime,
                              ActivityType = d.ActivityType,
+                             ActivityFor = d.ActivityFor,
                              TotalRecords = totalRecords
                          }).ToList();
 

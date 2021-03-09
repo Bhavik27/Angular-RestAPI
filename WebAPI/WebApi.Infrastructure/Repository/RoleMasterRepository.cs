@@ -56,9 +56,11 @@ namespace WebAPI.Infrastructure.Repository
                 _context.RoleMasters.Add(role);
                 _context.SaveChanges();
 
+                int roleId = role.RoleId;
                 ActivityLog activity = new ActivityLog();
-                activity.ActivityType = "CREATE";
-                _logRepository.SetActivityLog(activity, UserID);
+                activity.ActivityType = "created";
+                activity.ActivityFor = "Role";
+                _logRepository.SetActivityLog(activity,roleId , UserID);
             }
             else
             {
@@ -70,8 +72,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.ActivityType = "UPDATE";
-                _logRepository.SetActivityLog(activity, UserID);
+                activity.ActivityType = "updated";
+                activity.ActivityFor = "Role";
+                _logRepository.SetActivityLog(activity, data.RoleId, UserID);
             }
             return 1;
         }
@@ -114,8 +117,9 @@ namespace WebAPI.Infrastructure.Repository
             }
 
             ActivityLog activity = new ActivityLog();
-            activity.ActivityType = "Update Access";
-            _logRepository.SetActivityLog(activity, UserID);
+            activity.ActivityType = "access changed";
+            activity.ActivityFor = "Role";
+            _logRepository.SetActivityLog(activity, RoleID, UserID);
             return 0;
         }
     }

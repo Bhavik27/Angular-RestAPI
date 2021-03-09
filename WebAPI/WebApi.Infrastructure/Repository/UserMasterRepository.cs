@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -63,10 +63,11 @@ namespace WebAPI.Infrastructure.Repository
                 _context.Add(user);
                 _context.SaveChanges();
 
+                int id = user.UserId;
                 ActivityLog activity = new ActivityLog();
-                activity.ActivityType = "CREATE";
-                int UserId = 1;
-                _logRepository.SetActivityLog(activity, UserId);
+                activity.ActivityType = "created";
+                activity.ActivityFor = "User";
+                _logRepository.SetActivityLog(activity, id, UserID);
             }
             else
             {
@@ -85,8 +86,9 @@ namespace WebAPI.Infrastructure.Repository
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.ActivityType = "UPDATE";
-                _logRepository.SetActivityLog(activity, UserID);
+                activity.ActivityType = "updated";
+                activity.ActivityFor = "User";
+                _logRepository.SetActivityLog(activity, data.UserId, UserID);
             }
             return 1;
         }
@@ -95,13 +97,14 @@ namespace WebAPI.Infrastructure.Repository
             UserMaster vMUser = _context.UserMasters.Where(u => u.UserId == id).FirstOrDefault();
             if (vMUser != null)
             {
-                var tempUser = vMUser.UserName;
-                _context.UserMasters.Remove(vMUser);
+                var tempUserID = vMUser.UserId;
+                //_context.UserMasters.Remove(vMUser);
                 _context.SaveChanges();
 
                 ActivityLog activity = new ActivityLog();
-                activity.ActivityType = "DELETE";
-                _logRepository.SetActivityLog(activity, UserID);
+                activity.ActivityType = "removed";
+                activity.ActivityFor = "User";
+                _logRepository.SetActivityLog(activity, tempUserID, UserID);
                 return 1;
             }
             return 0;
@@ -112,6 +115,17 @@ namespace WebAPI.Infrastructure.Repository
             return _context.UserMasters
                 .Where(x => x.UserName == userLogin.UserName && x.Password == userLogin.Password)
                 .FirstOrDefault();
+        }
+
+
+        public void SaveToken(string Token, int UserID)
+        {
+            TokenMaster data = new TokenMaster();
+            data.jwtToken = Token;
+            data.CreatedBy = UserID;
+            data.CreatedTime = DateTime.Now;
+            _context.TokenMasters.Add(data);
+            _context.SaveChanges();
         }
     }
 }

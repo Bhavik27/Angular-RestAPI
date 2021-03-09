@@ -8,7 +8,7 @@ namespace WebAPI.Infrastructure.Interfaces
 {
     public interface IActivityLogRepository
     {
-        public void SetActivityLog(ActivityLog log, int UserId);
+        public void SetActivityLog(ActivityLog log, int UserId, int ModiferId);
         public List<VMActivityLog> GetActivityLogs(PageModel pageModel);
     }
 }
