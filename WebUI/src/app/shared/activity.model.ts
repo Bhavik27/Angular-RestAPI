@@ -4,5 +4,6 @@ export class ActivityLog {
     ActivityType: string;
     ActivityByName: string;
     ActivityTime: string;
+    ActivityFor:string;
     TotalRecords: number;
 }

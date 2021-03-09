@@ -41,7 +41,7 @@
                         <button mat-icon-button (click)="onEdit(element)" [disabled]="!updateAccess">
                             <img src="../../assets/edit.svg" alt="edit">
                         </button>
-                        <button mat-icon-button (click)="onDelete(element.UserId)" [disabled]="!deleteAccess">
+                        <button mat-icon-button (click)="onDelete(element.UserId)" [disabled]="deleteAccess">
                             <img src="../../assets/delete.svg" alt="delete" class="ml-2">
                         </button>
                     </td>

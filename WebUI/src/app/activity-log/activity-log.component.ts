@@ -17,7 +17,7 @@ export class ActivityLogComponent implements OnInit {
 
   activity: ActivityLog[];
   pageModel = new PageModel();
-  panelOpenState = false;
+  panelOpenState: boolean[];
 
   constructor(private authService: AuthService,
     private apiService: ApiService,
@@ -30,6 +30,7 @@ export class ActivityLogComponent implements OnInit {
 
   ngOnInit(): void {
     this.activity = [];
+    this.panelOpenState = [];
     this.pageModel.PageIndex = 0;
     this.pageModel.PageSize = 10;
     this.pageModel.OrderBy = "ActivityTime";
@@ -37,7 +38,7 @@ export class ActivityLogComponent implements OnInit {
     this.getActivityLogs();
   }
 
-  onPageChange(page:PageEvent){
+  onPageChange(page: PageEvent) {
     this.pageModel.PageIndex = page.pageIndex;
     this.pageModel.PageSize = page.pageSize;
     this.getActivityLogs();
@@ -48,6 +49,9 @@ export class ActivityLogComponent implements OnInit {
       .subscribe(data => {
         this.pageModel.Length = data[0].totalRecords;
         this.activity = this.convertToModel(data);
+        for (var i = 0; i < this.pageModel.Length; i++) {
+          this.panelOpenState.push(false)
+        }
       })
   }
 
@@ -61,6 +65,7 @@ export class ActivityLogComponent implements OnInit {
           ActivityType: v.activityType,
           ActivityByName: v.activityByName,
           ActivityTime: v.activityTime,
+          ActivityFor: v.activityFor,
           TotalRecords: v.totalRecords,
         });
       }

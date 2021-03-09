@@ -51,6 +51,16 @@ mat-list-item.mat-focus-indicator.mat-list-item{
 mat-list-item.active.mat-focus-indicator.mat-list-item{
     background-color: #222831; 
 }
+.mat-expansion-panel-body{
+    background-color: whitesmoke;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+.border-b{
+    border-bottom: 1px solid grey;
+}
+
+
 /* 364f6b */
 /* light to dark */
 /* #e4f9f5, #30e3ca, #11999e, #40514e */

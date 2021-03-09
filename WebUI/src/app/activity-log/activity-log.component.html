@@ -1,22 +1,21 @@
 <div class="container-fluid pt-2">
     <div class="card">
         <div class="card-body">
-            <mat-accordion *ngFor="let item of activity">
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="mb-1">
-                    <mat-expansion-panel-header>
+            <mat-accordion *ngFor="let item of activity;index as i;">
+                <mat-expansion-panel (opened)="panelOpenState[i] = true" (closed)="panelOpenState[i] = false"
+                    class="mb-1">
+                    <mat-expansion-panel-header [ngClass]="[(panelOpenState[i]==true)?'border-b':'']">
                         <mat-panel-title>
-                            {{item.ActivityOn}} is {{item.ActivityType.toLocaleLowerCase()}}d 
-                            by {{item.ActivityByName}}
+                            {{item.ActivityOn}} {{item.ActivityFor}} is {{item.ActivityType.toLocaleLowerCase()}}
                         </mat-panel-title>
                         <mat-panel-description>
-                                <mat-chip-list >
-                                    <mat-chip [ngClass]="[(item.ActivityType == 'CREATE')?'bg-primary':'',
-                                    (item.ActivityType == 'UPDATE')?'bg-warning':'',
-                                    (item.ActivityType == 'DELETE')?'bg-danger':'']" class="text-white">{{item.ActivityType}}</mat-chip>
-                                </mat-chip-list>
+                            <div>{{item.ActivityType}}</div>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p>Duration : {{item.ActivityTime}}</p>
+                    <div *ngIf="panelOpenState[i]">
+                        <p>ActivityBy: {{item.ActivityByName}}</p>
+                        <p>Duration : {{item.ActivityTime|date:'medium'}}</p>
+                    </div>
                 </mat-expansion-panel>
             </mat-accordion>
             <mat-paginator class="mat-elevation-z2" [pageSizeOptions]="[10,20,30]" [length]="pageModel.Length"
