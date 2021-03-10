@@ -6,10 +6,8 @@ export class UserModel {
     DateOfBirth: string;
     Gender: string;
     MailId: string;
-    CreatedBy: number;
-    CreatedTime: string;
-    UpdatedBy: number;
-    UpdatedTime: string;
+    isActive: boolean;
+    Role: number;
 }
 
 export class UserLoginModel {
@@ -17,8 +15,8 @@ export class UserLoginModel {
     Password: string;
 }
 
-export class UserLoginReponseModel{
-    roleID:number;
-    token:string;
-    userName:string;
+export class UserLoginReponseModel {
+    roleID: number;
+    token: string;
+    userName: string;
 }

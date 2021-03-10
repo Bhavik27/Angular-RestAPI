@@ -17,7 +17,8 @@ import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { EditRoleComponent } from './role-manager/edit-role/edit-role.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { ModuleMappingComponent } from './role-manager/module-mapping/module-mapping.component';
-import { ActivityLogComponent } from './activity-log/activity-log.component'
+import { ActivityLogComponent } from './activity-log/activity-log.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ActivityLogComponent } from './activity-log/activity-log.component'
     EditRoleComponent,
     UserLoginComponent,
     ModuleMappingComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

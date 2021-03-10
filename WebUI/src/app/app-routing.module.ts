@@ -6,6 +6,7 @@ import { ModuleMappingComponent } from './role-manager/module-mapping/module-map
 import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { AuthGuard } from './services/Guard/auth.guard';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: 'ActivityLog',
     component: ActivityLogComponent
+  },
+  {
+    path: 'Profile',
+    component: UserProfileComponent
   }
 ];
 
