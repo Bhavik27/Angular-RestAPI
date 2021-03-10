@@ -12,6 +12,7 @@ namespace WebAPI.Application.Mapper
         public WebMapper()
         {
             CreateMap<UserMaster, VMUserMaster>();
+            CreateMap<VMUserMaster, UserMaster>();
             CreateMap<RoleMaster, VMRoleMaster>();
             //CreateMap<VMUserMaster, UserMaster>();
         }

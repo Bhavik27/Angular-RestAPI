@@ -20,7 +20,7 @@ namespace WebAPI.Infrastructure.Repository
         public void SetActivityLog(ActivityLog log, int ModifiedId, int ModiferId)
         {
             ActivityLog activity = new ActivityLog();
-            if (log.ActivityFor == "User")
+            if (log.ActivityFor == "User" || log.ActivityFor == "Profile")
             {
                 var data = _context.UserMasters.Where(x => x.UserId == ModifiedId).FirstOrDefault();
                 activity.ActivityOn = data.UserId;

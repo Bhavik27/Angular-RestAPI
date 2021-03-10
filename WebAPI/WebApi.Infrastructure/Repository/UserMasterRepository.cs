@@ -34,11 +34,8 @@ namespace WebAPI.Infrastructure.Repository
                         MailId = d.MailId,
                         Gender = d.Gender,
                         DateOfBirth = d.DateOfBirth,
-                        CreatedBy = d.CreatedBy,
-                        CreatedTime = d.CreatedTime,
-                        UpdatedBy = d.UpdatedBy,
-                        UpdatedTime = d.UpdatedTime,
-                        TotalRecords = TotalRecords,
+                        IsActive = d.IsActive,
+                        TotalRecords = TotalRecords
                     }).ToList();
             if (pageModel.SortOrder == "desc")
             {
@@ -53,7 +50,8 @@ namespace WebAPI.Infrastructure.Repository
 
         public int SaveUser(UserMaster user, int UserID)
         {
-            if (_context.UserMasters.Where(u => u.UserId == user.UserId).FirstOrDefault() == null)
+            var data = _context.UserMasters.Where(u => u.UserId == user.UserId).FirstOrDefault();
+            if (data == null)
             {
                 user.CreatedBy = UserID;
                 user.Role = 2;
@@ -71,7 +69,6 @@ namespace WebAPI.Infrastructure.Repository
             }
             else
             {
-                var data = _context.UserMasters.FirstOrDefault(u => u.UserId == user.UserId);
                 data.UserName = user.UserName;
                 data.FirstName = user.FirstName;
                 data.LastName = user.LastName;
@@ -81,7 +78,7 @@ namespace WebAPI.Infrastructure.Repository
                 data.DateOfBirth = user.DateOfBirth;
                 data.UpdatedTime = DateTime.Now;
                 data.UpdatedBy = UserID;
-                data.Role = 2;
+                //data.Role = user.Role;
                 _context.Update(data);
                 _context.SaveChanges();
 
@@ -92,6 +89,7 @@ namespace WebAPI.Infrastructure.Repository
             }
             return 1;
         }
+
         public int DeleteUser(int id, int UserID)
         {
             UserMaster vMUser = _context.UserMasters.Where(u => u.UserId == id).FirstOrDefault();
@@ -126,6 +124,65 @@ namespace WebAPI.Infrastructure.Repository
             data.CreatedTime = DateTime.Now;
             _context.TokenMasters.Add(data);
             _context.SaveChanges();
+        }
+
+        public VMUserMaster ProfileData(int UserID)
+        {
+            var data = (from user in _context.UserMasters
+                        where user.UserId == UserID
+                        select new VMUserMaster
+                        {
+                            UserId = user.UserId,
+                            UserName = user.UserName,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            DateOfBirth = user.DateOfBirth,
+                            Gender = user.Gender,
+                            IsActive = user.IsActive,
+                            MailId = user.MailId,
+                            Role = user.Role
+                        }).FirstOrDefault();
+            return data;
+        }
+
+        public int UpdateProfile(VMUserMaster vMUser)
+        {
+            var data = _context.UserMasters.Where(user => user.UserId == vMUser.UserId).FirstOrDefault();
+            if (data != null)
+            {
+                data.UserName = vMUser.UserName;
+                data.FirstName = vMUser.FirstName;
+                data.LastName = vMUser.LastName;
+                data.MailId = vMUser.MailId;
+                data.Gender = vMUser.Gender;
+                data.IsActive = vMUser.IsActive;
+                data.DateOfBirth = vMUser.DateOfBirth;
+                data.UpdatedTime = DateTime.Now;
+                data.UpdatedBy = vMUser.UserId;
+                data.Role = vMUser.Role;
+                _context.Update(data);
+                _context.SaveChanges();
+
+                ActivityLog activity = new ActivityLog();
+                activity.ActivityType = "updated";
+                activity.ActivityFor = "Profile";
+                _logRepository.SetActivityLog(activity, vMUser.UserId, vMUser.UserId);
+                return 1;
+            }
+            return 0;
+        }
+
+        public int ResetPassword(string userName, string newPassword, int UserID)
+        {
+            var data = _context.UserMasters.Where(user => user.UserId == UserID && user.UserName == userName).FirstOrDefault();
+            if (data != null)
+            {
+                data.Password = newPassword;
+                _context.UserMasters.Update(data);
+                _context.SaveChanges();
+                return 1;
+            }
+            return 0;
         }
     }
 }

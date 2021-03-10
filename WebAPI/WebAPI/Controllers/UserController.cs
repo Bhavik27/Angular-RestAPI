@@ -32,10 +32,10 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("api/[controller]/SaveUser")]
-        public async Task<ActionResult> SaveUser(UserMaster userMaster)
+        public async Task<ActionResult> SaveUser(VMUserMaster vMUser)
         {
             int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
-            var result = await Task.FromResult(_service.SaveUser(userMaster, UserID));
+            var result = await Task.FromResult(_service.SaveUser(vMUser, UserID));
             return Ok(result);
         }
 
@@ -55,6 +55,35 @@ namespace WebAPI.Controllers
             byte[] Key = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("Key").Value);
             byte[] IV = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("IV").Value);
             var result = await Task.FromResult(_service.Authenticate(userLogin, Key, IV));
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("api/[controller]/ProfileData")]
+        public async Task<IActionResult> ProfileData()
+        {
+            int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
+            var result = await Task.FromResult(_service.ProfileData(UserID));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/UpdateProfile")]
+        public async Task<IActionResult> UpdateProfile(VMUserMaster vMUser)
+        {
+            var result = await Task.FromResult(_service.UpdateProfile(vMUser));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string userName, string newPassword)
+        {
+            byte[] Key = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("Key").Value);
+            byte[] IV = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("IV").Value);
+            int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
+            var result = await Task.FromResult(_service.ResetPassword(userName, newPassword, Key, IV, UserID));
             return Ok(result);
         }
     }
