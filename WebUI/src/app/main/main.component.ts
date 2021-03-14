@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { title } from 'process';
 import { AuthService } from '../services/auth.service';
 import { CoreService } from '../services/core.service';
@@ -17,7 +18,8 @@ export class MainComponent implements OnInit {
   open: boolean = true;
 
   constructor(private authService: AuthService,
-    private coreService: CoreService) {
+    private coreService: CoreService,
+    private router:Router) {
     coreService.PageTitle.subscribe(title => { this.PageTitle = title })
     // debugger
     this.UserMaster = this.authService.hasAccess("UserMaster", "ViewAccess")
@@ -27,6 +29,11 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  onLogout(){
+    localStorage.clear();
+    this.router.navigate(['/Login']);
   }
 
 }

@@ -28,12 +28,12 @@ export class AuthService {
     return token;
   }
 
-  public Authenticate(userLoginReponse:UserLoginReponseModel) {
-    debugger
+  public Authenticate(userLoginReponse: UserLoginReponseModel) {
     this.coreService.Token = userLoginReponse.token
     this.coreService.UserName = userLoginReponse.userName
     this.coreService.RoleID = userLoginReponse.roleID.toString()
     this.GeteRoleRights(userLoginReponse.roleID)
+    this.expireToken()
   }
 
   GeteRoleRights(RoleId: number) {
@@ -87,5 +87,13 @@ export class AuthService {
     }
     return access;
   }
+
+  expireToken() {
+    const EXPIRE_TIME = 1000 * 60 * 60 * 24;
+    setTimeout(function () {
+      localStorage.clear();
+    }, EXPIRE_TIME);
+  }
+
 
 }

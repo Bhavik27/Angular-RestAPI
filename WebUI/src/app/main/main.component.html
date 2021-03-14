@@ -19,11 +19,6 @@
                 <img src="../../assets/management.svg" class="mx-2">RoleManager
             </mat-list-item>
         </mat-nav-list>
-        <!-- <mat-nav-list>
-            <mat-list-item routerLink="/ModuleMapping" class="px-2" routerLinkActive="active">
-                <img src="../../assets/map.svg" class="mx-2">ModuleMapping
-            </mat-list-item>
-        </mat-nav-list> -->
         <mat-nav-list class="py-0">
             <mat-list-item routerLink="/ActivityLog" class="px-2" routerLinkActive="active" *ngIf="ActivityLog">
                 <img src="../../assets/log.svg" class="mx-2">ActivityLog
@@ -33,11 +28,18 @@
 
 
     <mat-sidenav-content>
-        <div class="page-header">
-            <button mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span class="ml-2">{{PageTitle}}</span>
+        <div class="d-flex page-header">
+            <div class="w-100">
+                <button mat-icon-button (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <span class="ml-2">{{PageTitle}}</span>
+            </div>
+            <div class="flex-shrink-1">
+                <button mat-button (click)="onLogout()">
+                    <img src="../../assets/logout.svg" alt="logout">
+                </button>
+            </div>
         </div>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
