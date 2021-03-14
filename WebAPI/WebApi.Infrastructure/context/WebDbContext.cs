@@ -26,7 +26,7 @@ namespace WebAPI.Infrastructure.context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-4AR4TBC;Initial Catalog=AdminPanel;User ID=admin;Password=sa@12345"); // enter your connection string
+                optionsBuilder.UseSqlServer(""); // enter your connection string
             }
         }
 
