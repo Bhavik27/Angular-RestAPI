@@ -17,23 +17,24 @@ namespace WebAPI.Infrastructure.context
         public virtual DbSet<RoleAccessMaster> RoleAccessMasters { get; set; }
         public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
         public virtual DbSet<ModuleMaster> ModuleMasters { get; set; }
+        public virtual DbSet<UserOTP> UserOTPs { get; set; }
 
 
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-         {
-             if (!optionsBuilder.IsConfigured)
-             {
-                optionsBuilder.UseSqlServer(" "); // enter your connection string
-             }
-         }
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-4AR4TBC;Initial Catalog=AdminPanel;User ID=admin;Password=sa@12345"); // enter your connection string
+            }
+        }
 
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
-         {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
             OnModelCreatingPartial(modelBuilder);
-         }
+        }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 

@@ -18,5 +18,13 @@ namespace WebAPI.Infrastructure.Models.VModels
 
     }
 
+    public class VMUser
+    {
+        public string UserName { get; set; }
+        public string MailId { get; set; }
+        public int OTP { get; set; }
+        public int UserId { get; set; }
+    }
+
 
 }

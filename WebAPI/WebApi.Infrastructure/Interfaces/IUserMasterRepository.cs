@@ -12,9 +12,10 @@ namespace WebAPI.Infrastructure.Interfaces
         public int SaveUser(UserMaster user, int UserID);
         public int DeleteUser(int id, int UserID);
         public UserMaster Authenticate(VMUserLogin userLogin);
-        public void SaveToken(string Token, int UserID);
         public VMUserMaster ProfileData(int UserID);
         public int UpdateProfile(VMUserMaster vMUser);
-        public int ResetPassword(string userName, string newPassword, int UserID);
+        public int ResetPassword(string MailAddress, string newPassword);
+        public VMUser GetUser( string ToMailAddress);
+        public int CheckOTP(string MailAddress, int OTP);
     }
 }

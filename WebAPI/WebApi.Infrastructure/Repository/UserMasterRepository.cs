@@ -115,17 +115,6 @@ namespace WebAPI.Infrastructure.Repository
                 .FirstOrDefault();
         }
 
-
-        public void SaveToken(string Token, int UserID)
-        {
-            TokenMaster data = new TokenMaster();
-            data.jwtToken = Token;
-            data.CreatedBy = UserID;
-            data.CreatedTime = DateTime.Now;
-            _context.TokenMasters.Add(data);
-            _context.SaveChanges();
-        }
-
         public VMUserMaster ProfileData(int UserID)
         {
             var data = (from user in _context.UserMasters
@@ -172,9 +161,9 @@ namespace WebAPI.Infrastructure.Repository
             return 0;
         }
 
-        public int ResetPassword(string userName, string newPassword, int UserID)
+        public int ResetPassword(string MailAddress, string newPassword)
         {
-            var data = _context.UserMasters.Where(user => user.UserId == UserID && user.UserName == userName).FirstOrDefault();
+            var data = _context.UserMasters.Where(user => user.MailId == MailAddress).FirstOrDefault();
             if (data != null)
             {
                 data.Password = newPassword;
@@ -183,6 +172,60 @@ namespace WebAPI.Infrastructure.Repository
                 return 1;
             }
             return 0;
+        }
+
+        public VMUser GetUser(string ToMailAddress)
+        {
+            var data = _context.UserMasters.Where(u => u.MailId == ToMailAddress).FirstOrDefault();
+            if (data != null)
+            {
+                int OTP = GenerateOTP();
+                var data2 = _context.UserOTPs.Where(o => o.UserID == data.UserId).FirstOrDefault();
+                if (data2 != null)
+                {
+                    data2.OTP = OTP;
+                    data2.UserID = data.UserId;
+                    data2.CreatedTime = DateTime.Now;
+                    _context.UserOTPs.Update(data2);
+                }
+                else
+                {
+                    UserOTP userOTP = new UserOTP();
+                    userOTP.OTP = OTP;
+                    userOTP.UserID = data.UserId;
+                    userOTP.CreatedTime = DateTime.Now;
+                    _context.UserOTPs.Add(userOTP);
+                }
+                _context.SaveChanges();
+
+                VMUser vMUser = new VMUser();
+                vMUser.UserName = data.UserName;
+                vMUser.MailId = data.MailId;
+                vMUser.OTP = OTP;
+                return vMUser;
+            }
+            return null;
+        }
+
+        public int CheckOTP(string MailAddress, int OTP)
+        {
+            var data = (from user in _context.UserMasters
+                        join otp in _context.UserOTPs
+                        on user.UserId equals otp.UserID
+                        where user.MailId == MailAddress
+                        select user).FirstOrDefault();
+
+            if (_context.UserOTPs.Where(o => o.UserID == data.UserId && o.OTP == OTP).FirstOrDefault() != null)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        public int GenerateOTP()
+        {
+            Random random = new Random();
+            return random.Next(1000, 9999);
         }
     }
 }

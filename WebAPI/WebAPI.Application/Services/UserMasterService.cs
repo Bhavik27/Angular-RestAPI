@@ -65,11 +65,33 @@ namespace WebAPI.Application.Interfaces
             return data;
         }
 
-        public int ResetPassword(string userName, string newPassword, byte[] Key, byte[] IV, int UserID)
+        public int ResetPassword(string MailAddress, string newPassword, byte[] Key, byte[] IV)
         {
             string encryptedPass = Convert.ToBase64String(_coreRepository.EncryptString(newPassword, Key, IV));
-            int data = _repository.ResetPassword(userName, encryptedPass, UserID);
+            int data = _repository.ResetPassword(MailAddress, encryptedPass);
             return data;
         }
+
+        public int GetOTP(string Host, int Port, string HostUserName, string HostPassword, string ToMailAddress)
+        {
+            var data = _repository.GetUser(ToMailAddress);
+            if (data != null)
+            {
+                int data2 = _coreRepository.MailSender(Host, Port, HostUserName, HostPassword, data);
+                if(data2 == 0)
+                {
+                    return -1;
+                }
+                return data2;
+            }
+            return 0;
+        }
+
+        public int CheckOTP(string MailAddress, int OTP)
+        {
+            var data = _repository.CheckOTP(MailAddress, OTP);
+            return data;
+        }
+
     }
 }

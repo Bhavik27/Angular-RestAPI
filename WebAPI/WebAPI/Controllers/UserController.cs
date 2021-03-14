@@ -78,12 +78,31 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("api/[controller]/ResetPassword")]
-        public async Task<IActionResult> ResetPassword(string userName, string newPassword)
+        public async Task<IActionResult> ResetPassword(string MailAddress, string newPassword)
         {
             byte[] Key = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("Key").Value);
             byte[] IV = Convert.FromBase64String(_configuration.GetSection("Encryption").GetSection("IV").Value);
-            int UserID = int.Parse(((ClaimsIdentity)this.User.Identity).Claims.FirstOrDefault(c => c.Type == "UserID").Value);
-            var result = await Task.FromResult(_service.ResetPassword(userName, newPassword, Key, IV, UserID));
+            var result = await Task.FromResult(_service.ResetPassword(MailAddress, newPassword, Key, IV));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/GetOTP")]
+        public async Task<IActionResult> GetOTP(string MailAddress)
+        {
+            string _Host = _configuration.GetSection("SMTP").GetSection("Host").Value;
+            int _Port = int.Parse(_configuration.GetSection("SMTP").GetSection("Port").Value);
+            string _UserName = _configuration.GetSection("SMTP").GetSection("UserName").Value;
+            string _Password = _configuration.GetSection("SMTP").GetSection("Password").Value;
+            var result = await Task.FromResult(_service.GetOTP(_Host, _Port, _UserName, _Password, MailAddress));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/CheckOTP")]
+        public async Task<IActionResult> CheckOTP(string MailAddress, int OTP)
+        {
+            var result = await Task.FromResult(_service.CheckOTP(MailAddress, OTP));
             return Ok(result);
         }
     }

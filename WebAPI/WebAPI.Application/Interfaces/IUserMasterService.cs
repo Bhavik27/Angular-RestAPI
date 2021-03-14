@@ -14,6 +14,8 @@ namespace WebAPI.Application.Services
         public VMUserLoginRespose Authenticate(VMUserLogin userLogin, byte[] Key, byte[] IV);
         public VMUserMaster ProfileData(int UserID);
         public int UpdateProfile(VMUserMaster vMUser);
-        public int ResetPassword(string userName, string newPassword, byte[] Key, byte[] IV, int UserID);
+        public int ResetPassword(string MailAddress, string newPassword, byte[] Key, byte[] IV);
+        public int GetOTP(string Host, int Port, string HostUserName, string HostPassword, string ToMailAddress);
+        public int CheckOTP(string MailAddress, int OTP);
     }
 }
